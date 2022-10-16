@@ -1,4 +1,4 @@
-package classes;
+package project;
 
 class Staff {
     public String staffID;

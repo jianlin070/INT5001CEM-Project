@@ -1,4 +1,4 @@
-package classes;
+package project;
 
 public class Visitor {
     public String name;
