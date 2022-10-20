@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package project2;
+package project;
 
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -31,8 +30,8 @@ public class LandingForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(2000, 2000));
@@ -63,6 +62,20 @@ public class LandingForm extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(242, 242, 127));
         jPanel2.setMaximumSize(new java.awt.Dimension(2000, 500));
 
+        jLabel2.setBackground(new java.awt.Color(251, 192, 147));
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project/Images/multiple-users-silhouette.png"))); // NOI18N
+        jLabel2.setText("Staff");
+        jLabel2.setAutoscrolls(true);
+        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jLabel2.setIconTextGap(70);
+        jLabel2.setMaximumSize(new java.awt.Dimension(2000, 2000));
+        jLabel2.setOpaque(true);
+        jLabel2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
         jLabel3.setBackground(new java.awt.Color(251, 192, 147));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -75,18 +88,11 @@ public class LandingForm extends javax.swing.JFrame {
         jLabel3.setOpaque(true);
         jLabel3.setRequestFocusEnabled(false);
         jLabel3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-
-        jLabel2.setBackground(new java.awt.Color(251, 192, 147));
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project/Images/multiple-users-silhouette.png"))); // NOI18N
-        jLabel2.setText("Staff");
-        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIconTextGap(70);
-        jLabel2.setMaximumSize(new java.awt.Dimension(2000, 2000));
-        jLabel2.setOpaque(true);
-        jLabel2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -126,6 +132,10 @@ public class LandingForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel3MouseClicked
 
     /**
      * @param args the command line arguments
