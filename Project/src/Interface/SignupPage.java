@@ -1,8 +1,12 @@
-/*
+/*:
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Interface;
+
+import java.sql.*; 
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -15,6 +19,41 @@ public class SignupPage extends javax.swing.JFrame {
      */
     public SignupPage() {
         initComponents();
+    }
+    
+    //method to insert values into visitor table
+    public void insertSignupDetails(){
+        String ic_no =  txt_ic_no.getText();
+        String password = txt_password.getText();
+        String full_name = txt_full_name.getText();
+        String contact = txt_contact.getText();
+        String company = txt_company.getText();
+        
+        try{
+            Connection con = DBConnection.getConnection();
+            String sql = "insert into visitor(ic,password,name,contact,company) values(?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            
+            pst.setString(1, ic_no);
+            pst.setString(2, password);
+            pst.setString(3, full_name);
+            pst.setString(4, contact);
+            pst.setString(5, company);
+            
+            int updatedRowCount = pst.executeUpdate();
+            
+            if (updatedRowCount > 0){
+                JOptionPane.showMessageDialog(this, "Recorded Inserted Successfully");
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Recorded Inserted Failure");
+            }
+            
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+            
     }
 
     /**
@@ -47,9 +86,9 @@ public class SignupPage extends javax.swing.JFrame {
         txt_contact = new app.bolivia.swing.JCTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jCTextField5 = new app.bolivia.swing.JCTextField();
+        txt_company = new app.bolivia.swing.JCTextField();
         rSMaterialButtonCircle2 = new necesario.RSMaterialButtonCircle();
-        rSMaterialButtonCircle3 = new necesario.RSMaterialButtonCircle();
+        btn_signup = new necesario.RSMaterialButtonCircle();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -172,15 +211,15 @@ public class SignupPage extends javax.swing.JFrame {
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/company-signup.png"))); // NOI18N
         jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 440, -1, 50));
 
-        jCTextField5.setBackground(new java.awt.Color(102, 153, 255));
-        jCTextField5.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
-        jCTextField5.setPlaceholder("Enter Company ...");
-        jCTextField5.addActionListener(new java.awt.event.ActionListener() {
+        txt_company.setBackground(new java.awt.Color(102, 153, 255));
+        txt_company.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        txt_company.setPlaceholder("Enter Company ...");
+        txt_company.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCTextField5ActionPerformed(evt);
+                txt_companyActionPerformed(evt);
             }
         });
-        jPanel2.add(jCTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 450, 310, 30));
+        jPanel2.add(txt_company, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 450, 310, 30));
 
         rSMaterialButtonCircle2.setBackground(new java.awt.Color(51, 51, 51));
         rSMaterialButtonCircle2.setText("Login");
@@ -191,14 +230,14 @@ public class SignupPage extends javax.swing.JFrame {
         });
         jPanel2.add(rSMaterialButtonCircle2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 570, 290, 60));
 
-        rSMaterialButtonCircle3.setBackground(new java.awt.Color(255, 0, 51));
-        rSMaterialButtonCircle3.setText("Signup");
-        rSMaterialButtonCircle3.addActionListener(new java.awt.event.ActionListener() {
+        btn_signup.setBackground(new java.awt.Color(255, 0, 51));
+        btn_signup.setText("Signup");
+        btn_signup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rSMaterialButtonCircle3ActionPerformed(evt);
+                btn_signupActionPerformed(evt);
             }
         });
-        jPanel2.add(rSMaterialButtonCircle3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 500, 290, 60));
+        jPanel2.add(btn_signup, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 500, 290, 60));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 0, 590, 640));
 
@@ -222,17 +261,17 @@ public class SignupPage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_contactActionPerformed
 
-    private void jCTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCTextField5ActionPerformed
+    private void txt_companyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_companyActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCTextField5ActionPerformed
+    }//GEN-LAST:event_txt_companyActionPerformed
 
     private void rSMaterialButtonCircle2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rSMaterialButtonCircle2ActionPerformed
 
-    private void rSMaterialButtonCircle3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rSMaterialButtonCircle3ActionPerformed
+    private void btn_signupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_signupActionPerformed
+       insertSignupDetails();
+    }//GEN-LAST:event_btn_signupActionPerformed
 
     /**
      * @param args the command line arguments
@@ -270,8 +309,8 @@ public class SignupPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private necesario.RSMaterialButtonCircle btn_signup;
     private org.jdesktop.core.animation.timing.evaluators.EvaluatorByte evaluatorByte1;
-    private app.bolivia.swing.JCTextField jCTextField5;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -289,7 +328,7 @@ public class SignupPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private necesario.RSMaterialButtonCircle rSMaterialButtonCircle2;
-    private necesario.RSMaterialButtonCircle rSMaterialButtonCircle3;
+    private app.bolivia.swing.JCTextField txt_company;
     private app.bolivia.swing.JCTextField txt_contact;
     private app.bolivia.swing.JCTextField txt_full_name;
     private app.bolivia.swing.JCTextField txt_ic_no;
