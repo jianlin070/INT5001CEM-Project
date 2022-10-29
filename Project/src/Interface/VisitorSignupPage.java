@@ -13,12 +13,12 @@ import javax.swing.JOptionPane;
  *
  * @author jianlin070
  */
-public class SignupPage extends javax.swing.JFrame {
+public class VisitorSignupPage extends javax.swing.JFrame {
 
     /**
      * Creates new form SignupPage
      */
-    public SignupPage() {
+    public VisitorSignupPage() {
         initComponents();
     }
     
@@ -45,7 +45,10 @@ public class SignupPage extends javax.swing.JFrame {
             int updatedRowCount = pst.executeUpdate();
             
             if (updatedRowCount > 0){
-                JOptionPane.showMessageDialog(this, "Recorded Inserted Successfully");
+                JOptionPane.showMessageDialog(this, "Signup Successfully");
+                VisitorLoginPage login = new VisitorLoginPage();
+                login.setVisible(true);
+                this.dispose();
             }
             else{
                 JOptionPane.showMessageDialog(this, "Recorded Inserted Failure");
@@ -70,7 +73,7 @@ public class SignupPage extends javax.swing.JFrame {
         }
         
         if (!ic_no.matches("^\\d{6}[-]?\\d{2}[-]?\\d{4}$") ){
-            JOptionPane.showMessageDialog(this, "Please enter valid IC Number");
+            JOptionPane.showMessageDialog(this, "Please enter valid IC number");
             return false;
         }
         
@@ -166,13 +169,13 @@ public class SignupPage extends javax.swing.JFrame {
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/signup.png"))); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 250, -1));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/signup-login-access.png"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 250, -1));
 
         jLabel3.setFont(new java.awt.Font("Helvetica Neue", 1, 70)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setText("ACMS");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 710));
 
@@ -183,13 +186,13 @@ public class SignupPage extends javax.swing.JFrame {
         btn_close.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         btn_close.setForeground(new java.awt.Color(255, 255, 255));
         btn_close.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        btn_close.setText("X");
+        btn_close.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/previous.png"))); // NOI18N
         btn_close.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_closeMouseClicked(evt);
             }
         });
-        jPanel2.add(btn_close, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 0, 60, 50));
+        jPanel2.add(btn_close, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, -1, -1));
 
         txt_ic_no.setBackground(new java.awt.Color(102, 153, 255));
         txt_ic_no.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
@@ -351,7 +354,9 @@ public class SignupPage extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_companyActionPerformed
 
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
-       
+        VisitorLoginPage login = new VisitorLoginPage();
+        login.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btn_loginActionPerformed
 
     private void btn_signupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_signupActionPerformed
@@ -366,7 +371,9 @@ public class SignupPage extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_signupActionPerformed
 
     private void btn_closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_closeMouseClicked
-        System.exit(0);
+        LandingPage landing = new LandingPage();
+        landing.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btn_closeMouseClicked
 
     private void txt_ic_noFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_ic_noFocusLost
@@ -392,20 +399,27 @@ public class SignupPage extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SignupPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VisitorSignupPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SignupPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VisitorSignupPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SignupPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VisitorSignupPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SignupPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VisitorSignupPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SignupPage().setVisible(true);
+                new VisitorSignupPage().setVisible(true);
             }
         });
     }
