@@ -31,10 +31,11 @@ public class LandingPage extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btn_visitor = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(950, 640));
+        setMaximumSize(null);
+        setMinimumSize(null);
         setPreferredSize(new java.awt.Dimension(950, 640));
         setSize(new java.awt.Dimension(950, 640));
 
@@ -77,47 +78,59 @@ public class LandingPage extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 70, 270, 260));
+        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 60, 270, 260));
 
-        jButton4.setBackground(new java.awt.Color(153, 153, 255));
-        jButton4.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/user-landing.png"))); // NOI18N
-        jButton4.setText("Visitor");
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setIconTextGap(40);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+        btn_visitor.setBackground(new java.awt.Color(153, 153, 255));
+        btn_visitor.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        btn_visitor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/user-landing.png"))); // NOI18N
+        btn_visitor.setText("Visitor");
+        btn_visitor.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_visitor.setIconTextGap(40);
+        btn_visitor.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_visitor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_visitorMouseClicked(evt);
             }
         });
-        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 270, 260));
+        btn_visitor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_visitorActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btn_visitor, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, 270, 260));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1019, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 950, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btn_visitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_visitorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btn_visitorActionPerformed
+
+    private void btn_visitorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_visitorMouseClicked
+        VisitorLoginPage login = new VisitorLoginPage();
+        login.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btn_visitorMouseClicked
 
     /**
      * @param args the command line arguments
@@ -146,6 +159,12 @@ public class LandingPage extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -156,8 +175,8 @@ public class LandingPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_visitor;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
