@@ -73,7 +73,7 @@ public class VisitorForm extends javax.swing.JFrame {
         jLabel5.setBackground(new java.awt.Color(251, 192, 147));
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project/Images/registered-icon.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/registered-icon.png"))); // NOI18N
         jLabel5.setText("Register");
         jLabel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -83,7 +83,7 @@ public class VisitorForm extends javax.swing.JFrame {
         jLabel2.setBackground(new java.awt.Color(251, 192, 147));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project/Images/ticket-icon.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ticket-icon.png"))); // NOI18N
         jLabel2.setText("Check Ticket Status");
         jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -91,7 +91,7 @@ public class VisitorForm extends javax.swing.JFrame {
         jLabel2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project/Images/previous.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/previous.png"))); // NOI18N
         jLabel3.setText("Back");
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jLabel3.setIconTextGap(10);

@@ -144,7 +144,7 @@
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/project/Images/registered-icon.png"/>
+              <Image iconType="3" name="/Images/registered-icon.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Register"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -167,7 +167,7 @@
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/project/Images/ticket-icon.png"/>
+              <Image iconType="3" name="/Images/ticket-icon.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Check Ticket Status"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -186,7 +186,7 @@
               <Font name="Segoe UI" size="14" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/project/Images/previous.png"/>
+              <Image iconType="3" name="/Images/previous.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Back"/>
             <Property name="horizontalTextPosition" type="int" value="4"/>
