@@ -13,12 +13,12 @@ import javax.swing.JOptionPane;
  *
  * @author jianlin070
  */
-public class VisitorLoginPage extends javax.swing.JFrame {
+public class StaffLoginPage extends javax.swing.JFrame {
 
     /**
      * Creates new form SignupPage
      */
-    public VisitorLoginPage() {
+    public StaffLoginPage() {
         initComponents();
     }
     
@@ -53,18 +53,38 @@ public class VisitorLoginPage extends javax.swing.JFrame {
         
         try{
             Connection con = DBConnection.getConnection();
-            String sql = "select name from visitor where ic = ? and password = ?";
+            String sql = "select role from staff where ic = ? and password = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setString(1, ic_no);
             pst.setString(2, password);
           
             ResultSet rs = pst.executeQuery();
-            if(rs.next()){
-                JOptionPane.showMessageDialog(this, "Login successfull. Welcome " + rs.getString("name") + "!");
-                VisitorHomepage home = new VisitorHomepage(ic_no);
-                home.setVisible(true);
-                this.dispose();
+            if(rs.next()){  
+                
+                //access to security officer page
+                if(rs.getInt("role") == 0){
+                    JOptionPane.showMessageDialog(this, "Login successfull. Welcome Security Officer!");
+                    OfficerPage officer = new OfficerPage(ic_no);
+                    officer.setVisible(true);
+                    this.dispose();
+                }
+                
+                //access to guard page
+                if(rs.getInt("role") == 1){
+                    JOptionPane.showMessageDialog(this, "Login successfull. Welcome Guard!");
+                    GuardPage guard = new GuardPage(ic_no);
+                    guard.setVisible(true);
+                    this.dispose();
+                }
+                
+                //access to security admin page
+                if(rs.getInt("role") == 2){
+                    JOptionPane.showMessageDialog(this, "Login successfull. Welcome Security Admin!");
+                    AdminHomepage admin = new AdminHomepage(ic_no);
+                    admin.setVisible(true);
+                    this.dispose();
+                }
                 
             }
             else{
@@ -101,7 +121,6 @@ public class VisitorLoginPage extends javax.swing.JFrame {
         txt_password = new app.bolivia.swing.JCTextField();
         btn_login = new necesario.RSMaterialButtonCircle();
         jLabel16 = new javax.swing.JLabel();
-        btn_signup = new necesario.RSMaterialButtonCircle();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -148,7 +167,7 @@ public class VisitorLoginPage extends javax.swing.JFrame {
                 txt_ic_noActionPerformed(evt);
             }
         });
-        jPanel2.add(txt_ic_no, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 310, 30));
+        jPanel2.add(txt_ic_no, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 240, 310, 30));
 
         jLabel5.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -158,22 +177,22 @@ public class VisitorLoginPage extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/user-signup.png"))); // NOI18N
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, -1, 50));
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 230, -1, 50));
 
         jLabel7.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("IC Number");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, -1, -1));
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 220, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Password");
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 290, -1, -1));
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 330, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/password-signup.png"))); // NOI18N
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 300, -1, 50));
+        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 340, -1, 50));
 
         txt_password.setBackground(new java.awt.Color(102, 153, 255));
         txt_password.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
@@ -183,7 +202,7 @@ public class VisitorLoginPage extends javax.swing.JFrame {
                 txt_passwordActionPerformed(evt);
             }
         });
-        jPanel2.add(txt_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 310, 310, 30));
+        jPanel2.add(txt_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 350, 310, 30));
 
         btn_login.setBackground(new java.awt.Color(51, 51, 51));
         btn_login.setText("Login");
@@ -192,23 +211,14 @@ public class VisitorLoginPage extends javax.swing.JFrame {
                 btn_loginActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_login, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 430, 380, 70));
+        jPanel2.add(btn_login, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 470, 380, 70));
 
         jLabel16.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setText("Visitor Login");
-        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 60, -1, -1));
+        jLabel16.setText("Staff Login");
+        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 60, -1, -1));
 
-        btn_signup.setBackground(new java.awt.Color(255, 0, 51));
-        btn_signup.setText("Signup");
-        btn_signup.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_signupActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btn_signup, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 530, 380, 70));
-
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 0, 600, 710));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 600, 710));
 
         setSize(new java.awt.Dimension(960, 738));
         setLocationRelativeTo(null);
@@ -228,12 +238,6 @@ public class VisitorLoginPage extends javax.swing.JFrame {
             login();
         }
     }//GEN-LAST:event_btn_loginActionPerformed
-
-    private void btn_signupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_signupActionPerformed
-        VisitorSignupPage signup = new VisitorSignupPage();
-        signup.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btn_signupActionPerformed
 
     private void btn_closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_closeMouseClicked
         LandingPage landing = new LandingPage();
@@ -262,14 +266,18 @@ public class VisitorLoginPage extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VisitorLoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StaffLoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VisitorLoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StaffLoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VisitorLoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StaffLoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VisitorLoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StaffLoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -278,7 +286,7 @@ public class VisitorLoginPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VisitorLoginPage().setVisible(true);
+                new StaffLoginPage().setVisible(true);
             }
         });
     }
@@ -286,7 +294,6 @@ public class VisitorLoginPage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btn_close;
     private necesario.RSMaterialButtonCircle btn_login;
-    private necesario.RSMaterialButtonCircle btn_signup;
     private org.jdesktop.core.animation.timing.evaluators.EvaluatorByte evaluatorByte1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
