@@ -9,7 +9,7 @@ package Interface;
  *
  * @author jianlin070
  */
-public class VisitorHomepage extends javax.swing.JFrame {
+public class AdminHomepage extends javax.swing.JFrame {
     
     public static String ic_no;
 
@@ -17,7 +17,7 @@ public class VisitorHomepage extends javax.swing.JFrame {
      * Creates new form LandingForm
      * @param ic
      */
-    public VisitorHomepage(String ic) {
+    public AdminHomepage(String ic) {
         initComponents();
         ic_no = ic;      
     }
@@ -33,15 +33,15 @@ public class VisitorHomepage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        byteValueFactory1 = new com.mysql.cj.result.ByteValueFactory();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
+        btn_contingency = new javax.swing.JButton();
         btn_register = new javax.swing.JButton();
         btn_logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(null);
         setSize(new java.awt.Dimension(950, 640));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -50,7 +50,7 @@ public class VisitorHomepage extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Bangla Sangam MN", 1, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Visitor Homepage");
+        jLabel1.setText("Security Admin Homepage");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabel1.setPreferredSize(new java.awt.Dimension(382, 25));
 
@@ -74,26 +74,32 @@ public class VisitorHomepage extends javax.swing.JFrame {
         jPanel2.setMaximumSize(new java.awt.Dimension(2000, 500));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton3.setBackground(new java.awt.Color(153, 153, 255));
-        jButton3.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ticket-icon.png"))); // NOI18N
-        jButton3.setText("Check Status");
-        jButton3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setIconTextGap(40);
-        jButton3.setOpaque(true);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+        btn_contingency.setBackground(new java.awt.Color(153, 153, 255));
+        btn_contingency.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        btn_contingency.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/admin-homepage-monthly-report.png"))); // NOI18N
+        btn_contingency.setText("Contingency Report");
+        btn_contingency.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_contingency.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_contingency.setIconTextGap(40);
+        btn_contingency.setOpaque(true);
+        btn_contingency.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_contingency.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_contingencyMouseClicked(evt);
             }
         });
-        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 60, 270, 260));
+        btn_contingency.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_contingencyActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btn_contingency, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 60, 270, 260));
 
         btn_register.setBackground(new java.awt.Color(153, 153, 255));
         btn_register.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
-        btn_register.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/registered-icon.png"))); // NOI18N
-        btn_register.setText("Register");
+        btn_register.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/admin-homepage-contingency-report.png"))); // NOI18N
+        btn_register.setText("Monthly Report");
+        btn_register.setActionCommand("Monthly Report");
         btn_register.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_register.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_register.setIconTextGap(40);
@@ -136,18 +142,16 @@ public class VisitorHomepage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btn_contingencyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_contingencyActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btn_contingencyActionPerformed
 
     private void btn_registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registerActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_registerActionPerformed
 
     private void btn_registerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_registerMouseClicked
-        VisitorRegisterPage register = new VisitorRegisterPage(ic_no);
-        register.setVisible(true);
-        this.dispose();
+        
     }//GEN-LAST:event_btn_registerMouseClicked
 
     private void btn_logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logoutActionPerformed
@@ -155,10 +159,14 @@ public class VisitorHomepage extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_logoutActionPerformed
 
     private void btn_logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_logoutMouseClicked
-        VisitorLoginPage login = new VisitorLoginPage();
+        StaffLoginPage login = new StaffLoginPage();
         login.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btn_logoutMouseClicked
+
+    private void btn_contingencyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_contingencyMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_contingencyMouseClicked
 
     /**
      * @param args the command line arguments
@@ -177,14 +185,30 @@ public class VisitorHomepage extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VisitorHomepage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminHomepage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VisitorHomepage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminHomepage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VisitorHomepage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminHomepage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VisitorHomepage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdminHomepage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -205,15 +229,16 @@ public class VisitorHomepage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VisitorHomepage(ic_no).setVisible(true);
+                new AdminHomepage(ic_no).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_contingency;
     private javax.swing.JButton btn_logout;
     private javax.swing.JButton btn_register;
-    private javax.swing.JButton jButton3;
+    private com.mysql.cj.result.ByteValueFactory byteValueFactory1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
