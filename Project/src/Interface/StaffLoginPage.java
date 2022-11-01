@@ -22,7 +22,7 @@ public class StaffLoginPage extends javax.swing.JFrame {
         initComponents();
     }
     
-     //validation for Login
+    //validation for Login
     public boolean validateLogin(){
         String ic_no =  txt_ic_no.getText();
         String password = txt_password.getText();

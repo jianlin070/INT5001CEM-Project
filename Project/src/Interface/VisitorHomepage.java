@@ -36,7 +36,7 @@ public class VisitorHomepage extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
+        btn_check_status = new javax.swing.JButton();
         btn_register = new javax.swing.JButton();
         btn_logout = new javax.swing.JButton();
 
@@ -74,21 +74,26 @@ public class VisitorHomepage extends javax.swing.JFrame {
         jPanel2.setMaximumSize(new java.awt.Dimension(2000, 500));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton3.setBackground(new java.awt.Color(153, 153, 255));
-        jButton3.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ticket-icon.png"))); // NOI18N
-        jButton3.setText("Check Status");
-        jButton3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setIconTextGap(40);
-        jButton3.setOpaque(true);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+        btn_check_status.setBackground(new java.awt.Color(153, 153, 255));
+        btn_check_status.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        btn_check_status.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ticket-icon.png"))); // NOI18N
+        btn_check_status.setText("Check Status");
+        btn_check_status.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_check_status.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_check_status.setIconTextGap(40);
+        btn_check_status.setOpaque(true);
+        btn_check_status.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_check_status.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_check_statusMouseClicked(evt);
             }
         });
-        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 60, 270, 260));
+        btn_check_status.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_check_statusActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btn_check_status, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 60, 270, 260));
 
         btn_register.setBackground(new java.awt.Color(153, 153, 255));
         btn_register.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
@@ -136,9 +141,9 @@ public class VisitorHomepage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btn_check_statusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_check_statusActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btn_check_statusActionPerformed
 
     private void btn_registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registerActionPerformed
         // TODO add your handling code here:
@@ -159,6 +164,12 @@ public class VisitorHomepage extends javax.swing.JFrame {
         login.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btn_logoutMouseClicked
+
+    private void btn_check_statusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_check_statusMouseClicked
+        VisitorCheckStatusPage check = new VisitorCheckStatusPage(ic_no);
+        check.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btn_check_statusMouseClicked
 
     /**
      * @param args the command line arguments
@@ -211,9 +222,9 @@ public class VisitorHomepage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_check_status;
     private javax.swing.JButton btn_logout;
     private javax.swing.JButton btn_register;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
