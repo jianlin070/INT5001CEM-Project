@@ -38,7 +38,7 @@ public class AdminHomepage extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btn_contingency = new javax.swing.JButton();
-        btn_register = new javax.swing.JButton();
+        btn_monthly = new javax.swing.JButton();
         btn_logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -95,27 +95,27 @@ public class AdminHomepage extends javax.swing.JFrame {
         });
         jPanel2.add(btn_contingency, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 60, 270, 260));
 
-        btn_register.setBackground(new java.awt.Color(153, 153, 255));
-        btn_register.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
-        btn_register.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/admin-homepage-contingency-report.png"))); // NOI18N
-        btn_register.setText("Monthly Report");
-        btn_register.setActionCommand("Monthly Report");
-        btn_register.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btn_register.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_register.setIconTextGap(40);
-        btn_register.setOpaque(true);
-        btn_register.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btn_register.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_monthly.setBackground(new java.awt.Color(153, 153, 255));
+        btn_monthly.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        btn_monthly.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/admin-homepage-contingency-report.png"))); // NOI18N
+        btn_monthly.setText("Monthly Report");
+        btn_monthly.setActionCommand("Monthly Report");
+        btn_monthly.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_monthly.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn_monthly.setIconTextGap(40);
+        btn_monthly.setOpaque(true);
+        btn_monthly.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn_monthly.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_registerMouseClicked(evt);
+                btn_monthlyMouseClicked(evt);
             }
         });
-        btn_register.addActionListener(new java.awt.event.ActionListener() {
+        btn_monthly.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_registerActionPerformed(evt);
+                btn_monthlyActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_register, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, 270, 260));
+        jPanel2.add(btn_monthly, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, 270, 260));
 
         btn_logout.setBackground(new java.awt.Color(153, 153, 153));
         btn_logout.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -146,13 +146,16 @@ public class AdminHomepage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_contingencyActionPerformed
 
-    private void btn_registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registerActionPerformed
+    private void btn_monthlyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_monthlyActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_registerActionPerformed
+    }//GEN-LAST:event_btn_monthlyActionPerformed
 
-    private void btn_registerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_registerMouseClicked
+    private void btn_monthlyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_monthlyMouseClicked
+        AdminMonthlyReportPage monthly = new AdminMonthlyReportPage(ic_no);
+        monthly.setVisible(true);
+        this.dispose();
         
-    }//GEN-LAST:event_btn_registerMouseClicked
+    }//GEN-LAST:event_btn_monthlyMouseClicked
 
     private void btn_logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logoutActionPerformed
         // TODO add your handling code here:
@@ -165,7 +168,9 @@ public class AdminHomepage extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_logoutMouseClicked
 
     private void btn_contingencyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_contingencyMouseClicked
-        // TODO add your handling code here:
+        AdminContingencyReportPage contingency = new AdminContingencyReportPage(ic_no);
+        contingency.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btn_contingencyMouseClicked
 
     /**
@@ -237,7 +242,7 @@ public class AdminHomepage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_contingency;
     private javax.swing.JButton btn_logout;
-    private javax.swing.JButton btn_register;
+    private javax.swing.JButton btn_monthly;
     private com.mysql.cj.result.ByteValueFactory byteValueFactory1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
