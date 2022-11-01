@@ -6,8 +6,10 @@ package project;
 
 import java.awt.Image;
 import java.io.File;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -108,7 +110,7 @@ public class VisitorRegisterForm extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project/Images/previous (2).png"))); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/previous.png"))); // NOI18N
         jLabel9.setText("Back");
         jLabel9.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
@@ -202,7 +204,8 @@ public class VisitorRegisterForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        Icon icon = new javax.swing.ImageIcon(getClass().getResource("/Images/ticket-icon.png"));
+        JOptionPane.showMessageDialog(null, "Ticket Number: ", "Ticket Number Generator", JOptionPane.INFORMATION_MESSAGE, icon);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void ChooseImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChooseImageActionPerformed

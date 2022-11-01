@@ -36,7 +36,6 @@ public class LandingPage extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(null);
         setMinimumSize(null);
-        setPreferredSize(new java.awt.Dimension(950, 640));
         setSize(new java.awt.Dimension(950, 640));
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
