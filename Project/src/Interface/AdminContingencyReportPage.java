@@ -52,7 +52,7 @@ public class AdminContingencyReportPage extends javax.swing.JFrame {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/access_control_ms","root","");
             
             if(dateFilter != null && timeFilter != null){
-                String sql = "select R.date_visit, R.time_visit, R.tic_no, V.name, R.reason, R.checkin_time, R.checkout_time FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic WHERE R.date_visit = ? AND R.time_visit = ? AND R.status = 2 ORDER BY R.date_register DESC, R.time_register DESC ";
+                String sql = "select R.date_visit, R.time_visit, R.tic_no, V.name, R.reason, R.checkin_time, R.checkout_time FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic WHERE R.date_visit = ? AND R.time_visit = ? AND R.turn_up = 1 ORDER BY R.date_register DESC, R.time_register DESC ";
                 pst = con.prepareStatement(sql);
 
                 pst.setDate(1, dateFilter);
@@ -66,6 +66,7 @@ public class AdminContingencyReportPage extends javax.swing.JFrame {
                     tic_no = rs.getString("R.tic_no");
                     String visitor_name = rs.getString("V.name");
                     String reason = rs.getString("R.reason");
+                    boolean status = rs.getBoolean("R.turn_up");
                     Date checkin_time = rs.getTime("R.checkin_time");
                     Date checkout_time = rs.getTime("R.checkout_time");
 
@@ -88,7 +89,7 @@ public class AdminContingencyReportPage extends javax.swing.JFrame {
                     Date time_visit = rs.getTime("R.time_visit");
                     tic_no = rs.getString("R.tic_no");
                     String visitor_name = rs.getString("V.name");
-                    String reason = rs.getString("R.reason");
+                    String reason = rs.getString("R.reason");               
                     Date checkin_time = rs.getTime("R.checkin_time");
                     Date checkout_time = rs.getTime("R.checkout_time");
 
