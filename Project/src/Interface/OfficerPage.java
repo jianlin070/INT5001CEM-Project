@@ -50,7 +50,7 @@ public class OfficerPage extends javax.swing.JFrame {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/access_control_ms","root","");
             java.sql.Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select R.date_register, R.time_register, R.tic_no, V.name, R.date_visit, R.time_visit, R.status, R.declined_reason, R.officer_name, R.date_verify, R.time_verify FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic ORDER BY R.date_register DESC, R.time_register DESC");
+            ResultSet rs = st.executeQuery("select R.date_register, R.time_register, R.tic_no, V.name, R.date_visit, R.time_visit, R.reason, R.status, R.declined_reason, R.officer_name, R.date_verify, R.time_verify FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic ORDER BY R.date_register DESC, R.time_register DESC");
 
  
             
@@ -61,6 +61,7 @@ public class OfficerPage extends javax.swing.JFrame {
                 String visitor_name = rs.getString("V.name");
                 Date date_visit = rs.getDate("R.date_visit");
                 Date time_visit = rs.getTime("R.time_visit");
+                String reason = rs.getString("R.reason");
                 String status = rs.getString("R.status");
                 String statusStr = "";
                 if(status.equals("0")){
@@ -77,7 +78,7 @@ public class OfficerPage extends javax.swing.JFrame {
                 Date date_update = rs.getDate("R.date_verify");
                 Date time_update = rs.getTime("R.time_verify");
                 
-                Object[] obj = {date_register, time_register, tic_no, visitor_name, date_visit, time_visit, statusStr, declined_reason, officer_name, date_update, time_update};
+                Object[] obj = {date_register, time_register, tic_no, visitor_name, date_visit, time_visit, reason, statusStr, declined_reason, officer_name, date_update, time_update};
                 model = (DefaultTableModel) tbl_request.getModel();
                 model.addRow(obj);
             }
@@ -203,11 +204,11 @@ public class OfficerPage extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Date", "Time", "Tic No", "Visitor", "Date Visit", "Time Visit", "Status", "Declined Reason", "Last Update", "Date Update", "Time Update"
+                "Date", "Time", "Tic No", "Visitor", "Date Visit", "Time Visit", "Reason", "Status", "Declined Reason", "Last Update", "Date Update", "Time Update"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

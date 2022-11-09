@@ -65,8 +65,7 @@ public class AdminContingencyReportPage extends javax.swing.JFrame {
                     Date time_visit = rs.getTime("R.time_visit");
                     tic_no = rs.getString("R.tic_no");
                     String visitor_name = rs.getString("V.name");
-                    String reason = rs.getString("R.reason");
-                    boolean status = rs.getBoolean("R.turn_up");
+                    String reason = rs.getString("R.reason");           
                     Date checkin_time = rs.getTime("R.checkin_time");
                     Date checkout_time = rs.getTime("R.checkout_time");
 
@@ -77,7 +76,7 @@ public class AdminContingencyReportPage extends javax.swing.JFrame {
             
             }
             else if(dateFilter != null &&  timeFilter == null){
-                String sql = "select R.date_visit, R.time_visit, R.tic_no, V.name, R.reason, R.checkin_time, R.checkout_time FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic WHERE R.date_visit = ? AND R.status = 2 ORDER BY R.date_register DESC, R.time_register DESC ";
+                String sql = "select R.date_visit, R.time_visit, R.tic_no, V.name, R.reason, R.checkin_time, R.checkout_time FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic WHERE R.date_visit = ? AND R.turn_up = 1 ORDER BY R.date_register DESC, R.time_register DESC ";
                 pst = con.prepareStatement(sql);
 
                 pst.setDate(1, dateFilter);
@@ -100,7 +99,7 @@ public class AdminContingencyReportPage extends javax.swing.JFrame {
             
             }
             else if (timeFilter != null && dateFilter == null) {
-                String sql = "select R.date_visit, R.time_visit, R.tic_no, V.name, R.reason, R.checkin_time, R.checkout_time FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic WHERE R.time_visit = ? AND R.status = 2 ORDER BY R.date_register DESC, R.time_register DESC ";
+                String sql = "select R.date_visit, R.time_visit, R.tic_no, V.name, R.reason, R.checkin_time, R.checkout_time FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic WHERE R.time_visit = ? AND R.turn_up = 1 ORDER BY R.date_register DESC, R.time_register DESC ";
                 pst = con.prepareStatement(sql);
 
                 pst.setTime(1, timeFilter);
@@ -164,6 +163,7 @@ public class AdminContingencyReportPage extends javax.swing.JFrame {
         time_filter = new com.github.lgooddatepicker.components.TimePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(null);
         setPreferredSize(new java.awt.Dimension(1000, 660));
         setSize(new java.awt.Dimension(1000, 640));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
