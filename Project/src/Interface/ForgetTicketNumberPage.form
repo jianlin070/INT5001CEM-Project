@@ -182,7 +182,7 @@
                   <Table columnCount="6" rowCount="0">
                     <Column editable="false" title="Register Date" type="java.lang.Object"/>
                     <Column editable="false" title="Register Time" type="java.lang.Object"/>
-                    <Column editable="false" title="Tic No" type="java.lang.Object"/>
+                    <Column editable="true" title="Tic No" type="java.lang.Object"/>
                     <Column editable="false" title="Visit Date" type="java.lang.Object"/>
                     <Column editable="false" title="Visit Time" type="java.lang.Object"/>
                     <Column editable="false" title="Reason" type="java.lang.Object"/>
