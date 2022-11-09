@@ -53,7 +53,7 @@ public class VisitorLoginPage extends javax.swing.JFrame {
         
         try{
             Connection con = DBConnection.getConnection();
-            String sql = "select * from visitor where ic = ? and password = ?";
+            String sql = "select name from visitor where ic = ? and password = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setString(1, ic_no);
@@ -61,8 +61,8 @@ public class VisitorLoginPage extends javax.swing.JFrame {
           
             ResultSet rs = pst.executeQuery();
             if(rs.next()){
-                JOptionPane.showMessageDialog(this, "Login successfull");
-                VisitorHomepage home = new VisitorHomepage();
+                JOptionPane.showMessageDialog(this, "Login successfull. Welcome " + rs.getString("name") + "!");
+                VisitorHomepage home = new VisitorHomepage(ic_no);
                 home.setVisible(true);
                 this.dispose();
                 
@@ -104,7 +104,6 @@ public class VisitorLoginPage extends javax.swing.JFrame {
         btn_signup = new necesario.RSMaterialButtonCircle();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -197,8 +196,8 @@ public class VisitorLoginPage extends javax.swing.JFrame {
 
         jLabel16.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setText("Login Page");
-        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 60, -1, -1));
+        jLabel16.setText("Visitor Login");
+        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 60, -1, -1));
 
         btn_signup.setBackground(new java.awt.Color(255, 0, 51));
         btn_signup.setText("Signup");
@@ -211,7 +210,7 @@ public class VisitorLoginPage extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 0, 600, 710));
 
-        setSize(new java.awt.Dimension(960, 710));
+        setSize(new java.awt.Dimension(960, 738));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
