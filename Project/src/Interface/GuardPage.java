@@ -57,11 +57,11 @@ public class GuardPage extends javax.swing.JFrame {
             java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/access_control_ms","root","");
-            String sql = "select R.date_visit, R.time_visit, R.tic_no, V.name, R.turn_up, R.checkin_time, R.checkout_time, R.guard_name, R.date_update, R.time_update FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic = ? WHERE CAST(R.date_visit AS date) ORDER BY R.date_register DESC, R.time_register DESC ";
+            String sql = "select R.date_visit, R.time_visit, R.tic_no, V.name, R.reason,  R.turn_up, R.checkin_time, R.checkout_time, R.guard_name, R.date_update, R.time_update FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic WHERE CAST(R.date_visit AS date) = ? ORDER BY R.date_register DESC, R.time_register DESC ";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setDate(1, sqlDate);
-            
+
             ResultSet rs = pst.executeQuery();
             
             while(rs.next()){
@@ -69,6 +69,7 @@ public class GuardPage extends javax.swing.JFrame {
                 Date time_visit = rs.getTime("R.time_visit");
                 tic_no = rs.getString("R.tic_no");
                 String visitor_name = rs.getString("V.name");
+                String reason = rs.getString("R.reason");
                 boolean status = rs.getBoolean("R.turn_up");
                 String statusStr = "";
                 if(status == false){
@@ -84,7 +85,7 @@ public class GuardPage extends javax.swing.JFrame {
                 Date date_update = rs.getDate("R.date_update");
                 Date time_update = rs.getTime("R.time_update");
                 
-                Object[] obj = {date_visit, time_visit, tic_no, visitor_name, statusStr, checkin_time, checkout_time, guard_name, date_update, time_update};
+                Object[] obj = {date_visit, time_visit, tic_no, visitor_name, reason, statusStr, checkin_time, checkout_time, guard_name, date_update, time_update};
                 model = (DefaultTableModel) tbl_request.getModel();
                 model.addRow(obj);
             }
@@ -217,11 +218,11 @@ public class GuardPage extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Date Visit", "Time Visit", "Tic No", "Visitor", "Turn Up", "Entry Time", "Exit Time", "Last Update", "Date Update", "Time Update"
+                "Date Visit", "Time Visit", "Tic No", "Visitor", "Reason", "Turn Up", "Entry Time", "Exit Time", "Last Update", "Date Update", "Time Update"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
