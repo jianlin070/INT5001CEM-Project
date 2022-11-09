@@ -90,8 +90,8 @@ public class VisitorLoginPage extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
         btn_close = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         txt_ic_no = new app.bolivia.swing.JCTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -118,12 +118,6 @@ public class VisitorLoginPage extends javax.swing.JFrame {
         jLabel3.setText("ACMS");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 710));
-
-        jPanel2.setBackground(new java.awt.Color(102, 153, 255));
-        jPanel2.setForeground(new java.awt.Color(102, 204, 255));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         btn_close.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         btn_close.setForeground(new java.awt.Color(255, 255, 255));
         btn_close.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -133,7 +127,13 @@ public class VisitorLoginPage extends javax.swing.JFrame {
                 btn_closeMouseClicked(evt);
             }
         });
-        jPanel2.add(btn_close, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, -1, 40));
+        jPanel1.add(btn_close, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 40));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 710));
+
+        jPanel2.setBackground(new java.awt.Color(102, 153, 255));
+        jPanel2.setForeground(new java.awt.Color(102, 204, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txt_ic_no.setBackground(new java.awt.Color(102, 153, 255));
         txt_ic_no.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
