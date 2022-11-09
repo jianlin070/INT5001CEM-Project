@@ -50,7 +50,7 @@ public class OfficerPage extends javax.swing.JFrame {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/access_control_ms","root","");
             java.sql.Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select R.date_register, R.time_register, R.tic_no, V.name, R.date_visit, R.time_visit, R.status, R.declined_reason, R.officer_name, R.date_verify, R.time_verify FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic ORDER BY R.date_register, R.time_register DESC");
+            ResultSet rs = st.executeQuery("select R.date_register, R.time_register, R.tic_no, V.name, R.date_visit, R.time_visit, R.status, R.declined_reason, R.officer_name, R.date_verify, R.time_verify FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic ORDER BY R.date_register DESC, R.time_register DESC");
 
  
             

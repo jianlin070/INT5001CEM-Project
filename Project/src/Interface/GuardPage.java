@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -58,7 +57,7 @@ public class GuardPage extends javax.swing.JFrame {
             java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/access_control_ms","root","");
-            String sql = "select R.date_visit, R.time_visit, R.tic_no, V.name, R.turn_up, R.guard_name, R.date_update, R.time_update FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic WHERE CAST(R.date_visit AS date) = ? ORDER BY R.date_register, R.time_register DESC ";
+            String sql = "select R.date_visit, R.time_visit, R.tic_no, V.name, R.turn_up, R.checkin_time, R.checkout_time, R.guard_name, R.date_update, R.time_update FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic = ? WHERE CAST(R.date_visit AS date) ORDER BY R.date_register DESC, R.time_register DESC ";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setDate(1, sqlDate);
@@ -70,20 +69,22 @@ public class GuardPage extends javax.swing.JFrame {
                 Date time_visit = rs.getTime("R.time_visit");
                 tic_no = rs.getString("R.tic_no");
                 String visitor_name = rs.getString("V.name");
-                String status = changeString(rs.getString("R.turn_up"));
+                boolean status = rs.getBoolean("R.turn_up");
                 String statusStr = "";
-                if(status.equals("0")){
+                if(status == false){
                     statusStr = "No";
                 }
 
-                else if(status.equals("1")){
+                else if(status == true){
                     statusStr = "Yes";
                 }
+                Date checkin_time = rs.getTime("R.checkin_time");
+                Date checkout_time = rs.getTime("R.checkout_time");
                 String guard_name = rs.getString("R.guard_name");
                 Date date_update = rs.getDate("R.date_update");
                 Date time_update = rs.getTime("R.time_update");
                 
-                Object[] obj = {date_visit, time_visit, tic_no, visitor_name, statusStr,date_update, time_update, guard_name};
+                Object[] obj = {date_visit, time_visit, tic_no, visitor_name, statusStr, checkin_time, checkout_time, guard_name, date_update, time_update};
                 model = (DefaultTableModel) tbl_request.getModel();
                 model.addRow(obj);
             }
@@ -116,12 +117,12 @@ public class GuardPage extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btn_logout = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        btn_approve = new javax.swing.JButton();
-        btn_decline = new javax.swing.JButton();
+        btn_turnup = new javax.swing.JButton();
+        btn_didNotTurnup = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_request = new rojerusan.RSTableMetro();
-        timePicker1 = new com.github.lgooddatepicker.components.TimePicker();
-        datePicker1 = new com.github.lgooddatepicker.components.DatePicker();
+        time_checkin = new com.github.lgooddatepicker.components.TimePicker();
+        time_checkout = new com.github.lgooddatepicker.components.TimePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1000, 660));
@@ -164,45 +165,50 @@ public class GuardPage extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(102, 153, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btn_approve.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/admin-monthly-report-page-approve.png"))); // NOI18N
-        btn_approve.setText("Turn Up");
-        btn_approve.setBackground(new java.awt.Color(0, 204, 0));
-        btn_approve.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btn_approve.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        btn_approve.setForeground(new java.awt.Color(255, 255, 255));
-        btn_approve.setOpaque(true);
-        btn_approve.setToolTipText("");
-        btn_approve.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_turnup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/admin-monthly-report-page-approve.png"))); // NOI18N
+        btn_turnup.setText("Turn Up");
+        btn_turnup.setBackground(new java.awt.Color(0, 204, 0));
+        btn_turnup.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_turnup.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        btn_turnup.setForeground(new java.awt.Color(255, 255, 255));
+        btn_turnup.setOpaque(true);
+        btn_turnup.setToolTipText("");
+        btn_turnup.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                btn_turnupFocusGained(evt);
+            }
+        });
+        btn_turnup.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_approveMouseClicked(evt);
+                btn_turnupMouseClicked(evt);
             }
         });
-        btn_approve.addActionListener(new java.awt.event.ActionListener() {
+        btn_turnup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_approveActionPerformed(evt);
+                btn_turnupActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_approve, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 450, 180, 80));
+        jPanel2.add(btn_turnup, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 450, 180, 80));
 
-        btn_decline.setBackground(new java.awt.Color(255, 51, 51));
-        btn_decline.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        btn_decline.setForeground(new java.awt.Color(255, 255, 255));
-        btn_decline.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/admin-monthly-report-page-cross.png"))); // NOI18N
-        btn_decline.setText("Did Not Turn Up");
-        btn_decline.setToolTipText("");
-        btn_decline.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btn_decline.setOpaque(true);
-        btn_decline.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_didNotTurnup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/admin-monthly-report-page-cross.png"))); // NOI18N
+        btn_didNotTurnup.setText("Did Not Turn Up");
+        btn_didNotTurnup.setBackground(new java.awt.Color(255, 51, 51));
+        btn_didNotTurnup.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_didNotTurnup.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        btn_didNotTurnup.setForeground(new java.awt.Color(255, 255, 255));
+        btn_didNotTurnup.setOpaque(true);
+        btn_didNotTurnup.setToolTipText("");
+        btn_didNotTurnup.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_declineMouseClicked(evt);
+                btn_didNotTurnupMouseClicked(evt);
             }
         });
-        btn_decline.addActionListener(new java.awt.event.ActionListener() {
+        btn_didNotTurnup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_declineActionPerformed(evt);
+                btn_didNotTurnupActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_decline, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 450, 180, 80));
+        jPanel2.add(btn_didNotTurnup, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 450, 180, 80));
 
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
@@ -242,8 +248,8 @@ public class GuardPage extends javax.swing.JFrame {
         }
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 970, 410));
-        jPanel2.add(timePicker1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 500, -1, -1));
-        jPanel2.add(datePicker1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 460, -1, -1));
+        jPanel2.add(time_checkin, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, -1, -1));
+        jPanel2.add(time_checkout, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 490, -1, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 2000, 550));
 
@@ -261,137 +267,173 @@ public class GuardPage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_logoutActionPerformed
 
-    private void btn_approveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_approveMouseClicked
+    private void btn_turnupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_turnupMouseClicked
        
-        int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure to approve?");
-
-        if(confirmation == 0){
-            
-            String name = "-";
-                    
-            try{
-                Connection con = DBConnection.getConnection();
-                String sql = "select name from staff where ic = ?";
-                PreparedStatement pst = con.prepareStatement(sql);
-            
-                pst.setString(1, ic_no);
-                
-                ResultSet rs = pst.executeQuery();
-                
-                if(rs.next()){  
-                    name = rs.getString("name");
-                }
-                
-                java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-                java.sql.Time sqlTime = new java.sql.Time(Calendar.getInstance().getTime().getTime());
-                
-               
-                sql = "update request set status = ?, declined_reason = ?, guard_name = ?, date_update = ?, time_update = ? where tic_no = ?";
-                pst = con.prepareStatement(sql);
-                pst.setInt(1, 1);
-                pst.setString(2, "-");
-                pst.setString(3, name);
-                pst.setDate(4, sqlDate);
-                pst.setTime(5, sqlTime);
-                pst.setString(6, tic_no);
-                int rowCount = pst.executeUpdate();
-                
-                if(rowCount > 0){
-                    JOptionPane.showMessageDialog(this, "Status updated to Approaved");
-                    clearTable();
-                    fetchDataToTable();
-                }else{
-                    JOptionPane.showMessageDialog(this, "Status updation failed");
-                }
-                
-            }catch(Exception e){
-                
+        String checkin_time = time_checkin.getText();
+        boolean validCheckinTime=  time_checkin.isTextFieldValid();
+        
+        String checkout_time = time_checkout.getText();
+        boolean validCheckoutTime =  time_checkout.isTextFieldValid();
+        
+        if (checkin_time.equals("") && checkout_time.equals("")){
+            if (checkin_time.equals("")){
+                JOptionPane.showMessageDialog(this, "Please enter Entry Time");
+                return;
+            }
+            if (checkout_time.equals("")){
+                JOptionPane.showMessageDialog(this, "Please enter Exit Time");
+                return;
             }
         }
-    }//GEN-LAST:event_btn_approveMouseClicked
-
-    private void btn_approveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_approveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_approveActionPerformed
-
-    private void btn_declineMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_declineMouseClicked
         
-        declined_reason = "";
-                
-        while (declined_reason.replaceAll("\\s", "").equals("")){
-            declined_reason = JOptionPane.showInputDialog(this, "Please enter the reason of Declined");
-        }
-        
-  
-        int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure to decline?");
-        
-        if(confirmation == 0){
-            String name = "-";
-                    
-            try{
-                Connection con = DBConnection.getConnection();
-                String sql = "select name from staff where ic = ?";
-                PreparedStatement pst = con.prepareStatement(sql);
-            
-                pst.setString(1, ic_no);
-                
-                ResultSet rs = pst.executeQuery();
-                
-                if(rs.next()){  
-                    name = rs.getString("name");
-                }
-                
-                java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-                java.sql.Time sqlTime = new java.sql.Time(Calendar.getInstance().getTime().getTime());
-               
-                sql = "update request set status = ?, declined_reason = ?, guard_name = ?, date_update = ?, time_update = ? where tic_no = ?";
-                pst = con.prepareStatement(sql);
-                pst.setInt(1, 2);
-                pst.setString(2, declined_reason);
-                pst.setString(3, name);
-                pst.setDate(4, sqlDate);
-                pst.setTime(5, sqlTime);
-                pst.setString(6, tic_no);
-                int rowCount = pst.executeUpdate();
-                
-                if(rowCount > 0){
-                    JOptionPane.showMessageDialog(this, "Status updated to Declined");
-                    clearTable();
-                    fetchDataToTable();
-                }else{
-                    JOptionPane.showMessageDialog(this, "Status updation failed");
-                }
-                
-            }catch(Exception e){
-                
+        if (!validCheckinTime && !validCheckoutTime){
+            if (!validCheckinTime){
+                JOptionPane.showMessageDialog(this, "Please enter valid Entry Time");
+                return;
+            }
+            if (!validCheckoutTime){
+                JOptionPane.showMessageDialog(this, "Please enter valid Exit Time");
+                return;
             }
         }
-    }//GEN-LAST:event_btn_declineMouseClicked
+        
+ 
+        String name = "-";
+        
+        java.sql.Time sqlCheckinTime = null;
+        java.sql.Time sqlCheckoutTime = null;
+        
+        if(!time_checkin.getText().equals(""))
+            sqlCheckinTime = java.sql.Time.valueOf(time_checkin.getTime());
+        
+        if(!time_checkout.getText().equals(""))
+            sqlCheckoutTime = java.sql.Time.valueOf(time_checkout.getTime());
+        
+        try{
+            Connection con = DBConnection.getConnection();
+            String sql = "select name from staff where ic = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
 
-    private void btn_declineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_declineActionPerformed
+            pst.setString(1, ic_no);
+
+            ResultSet rs = pst.executeQuery();
+
+            if(rs.next()){  
+                name = rs.getString("name");
+            }
+
+            java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+            java.sql.Time sqlTime = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+
+            sql = "update request set turn_up = ?, guard_name = ?, date_update = ?, time_update = ?, checkin_time = ?, checkout_time = ? where tic_no = ?";
+            pst = con.prepareStatement(sql);
+            pst.setBoolean(1, true);
+            pst.setString(2, name);
+            pst.setDate(3, sqlDate);
+            pst.setTime(4, sqlTime);
+            pst.setTime(5, sqlCheckinTime);
+            pst.setTime(6, sqlCheckoutTime);
+            pst.setString(7, tic_no);
+            int rowCount = pst.executeUpdate();
+
+            if(rowCount > 0){
+                JOptionPane.showMessageDialog(this, "Turn up updated to Yes");
+                clearTable();
+                fetchDataToTable();
+            }else{
+                JOptionPane.showMessageDialog(this, "Status updation failed");
+            }
+
+        }catch(Exception e){
+
+        }
+        
+    }//GEN-LAST:event_btn_turnupMouseClicked
+
+    private void btn_turnupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_turnupActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_declineActionPerformed
+    }//GEN-LAST:event_btn_turnupActionPerformed
+
+    private void btn_didNotTurnupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_didNotTurnupMouseClicked
+        
+     
+        String name = "-";
+
+        try{
+            Connection con = DBConnection.getConnection();
+            String sql = "select name from staff where ic = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            pst.setString(1, ic_no);
+
+            ResultSet rs = pst.executeQuery();
+
+            if(rs.next()){  
+                name = rs.getString("name");
+            }
+
+            java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+            java.sql.Time sqlTime = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+
+            sql = "update request set turn_up = ?, guard_name = ?, date_update = ?, time_update = ?, checkin_time = ?, checkout_time = ? where tic_no = ?";
+            pst = con.prepareStatement(sql);
+            pst.setBoolean(1, false);
+            pst.setString(2, name);
+            pst.setDate(3, sqlDate);
+            pst.setTime(4, sqlTime);
+            pst.setTime(5, null);
+            pst.setTime(6, null);
+            pst.setString(7, tic_no);
+            int rowCount = pst.executeUpdate();
+
+            if(rowCount > 0){
+                JOptionPane.showMessageDialog(this, "Turn up updated to No");
+                clearTable();
+                fetchDataToTable();
+            }else{
+                JOptionPane.showMessageDialog(this, "Status updation failed");
+            }
+
+        }catch(Exception e){
+
+        }
+    }//GEN-LAST:event_btn_didNotTurnupMouseClicked
+
+    private void btn_didNotTurnupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_didNotTurnupActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_didNotTurnupActionPerformed
 
     private void tbl_requestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_requestMouseClicked
 
-        btn_approve.setEnabled(true);
-        btn_decline.setEnabled(true);
-
+        btn_turnup.setEnabled(true);
+        btn_didNotTurnup.setEnabled(true);     
+     
         int rowNo = tbl_request.getSelectedRow();
         TableModel model = tbl_request.getModel();
+     
+        if(model.getValueAt(rowNo, 5)!=null)
+            time_checkin.setText(model.getValueAt(rowNo, 5).toString());
+        
+        if(model.getValueAt(rowNo, 6)!=null)
+            time_checkout.setText(model.getValueAt(rowNo, 6).toString());
 
         tic_no = model.getValueAt(rowNo, 2).toString();
-        status = model.getValueAt(rowNo, 6).toString();
-
-        if (model.getValueAt(rowNo, 6).equals("Declined")){
-            btn_decline.setEnabled(false);
+        
+        if (model.getValueAt(rowNo, 4).equals("Yes") && model.getValueAt(rowNo, 5)!=null && model.getValueAt(rowNo, 6)!=null){
+           btn_turnup.setEnabled(false);
         }
 
-        if (model.getValueAt(rowNo, 6).equals("Approved")){
-            btn_approve.setEnabled(false);
+        if (model.getValueAt(rowNo, 4).equals("No")){
+           btn_didNotTurnup.setEnabled(false);
         }
+        
+        
 
     }//GEN-LAST:event_tbl_requestMouseClicked
+
+    private void btn_turnupFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btn_turnupFocusGained
+        
+    }//GEN-LAST:event_btn_turnupFocusGained
 
     /**
      * @param args the command line arguments
@@ -556,10 +598,9 @@ public class GuardPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_approve;
-    private javax.swing.JButton btn_decline;
+    private javax.swing.JButton btn_didNotTurnup;
     private javax.swing.JButton btn_logout;
-    private com.github.lgooddatepicker.components.DatePicker datePicker1;
+    private javax.swing.JButton btn_turnup;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -569,6 +610,7 @@ public class GuardPage extends javax.swing.JFrame {
     private rojeru_san.componentes.RSDateChooserBeanInfo rSDateChooserBeanInfo1;
     private rojerusan.RSTableMetro tbl_request;
     private com.mysql.cj.util.TestUtils testUtils1;
-    private com.github.lgooddatepicker.components.TimePicker timePicker1;
+    private com.github.lgooddatepicker.components.TimePicker time_checkin;
+    private com.github.lgooddatepicker.components.TimePicker time_checkout;
     // End of variables declaration//GEN-END:variables
 }
