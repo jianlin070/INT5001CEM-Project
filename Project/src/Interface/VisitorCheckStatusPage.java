@@ -117,6 +117,7 @@ public class VisitorCheckStatusPage extends javax.swing.JFrame {
         lbl_status = new javax.swing.JLabel();
         btn_resubmit = new javax.swing.JButton();
         btn_check = new javax.swing.JButton();
+        btn_forget = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(950, 640));
@@ -159,10 +160,10 @@ public class VisitorCheckStatusPage extends javax.swing.JFrame {
         jPanel2.setMaximumSize(new java.awt.Dimension(2000, 500));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lbl_reason1.setFont(new java.awt.Font("Bangla Sangam MN", 0, 36)); // NOI18N
-        lbl_reason1.setForeground(new java.awt.Color(255, 255, 255));
         lbl_reason1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lbl_reason1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        lbl_reason1.setFont(new java.awt.Font("Bangla Sangam MN", 0, 36)); // NOI18N
+        lbl_reason1.setForeground(new java.awt.Color(255, 255, 255));
         lbl_reason1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lbl_reason1.setPreferredSize(new java.awt.Dimension(382, 25));
         jPanel2.add(lbl_reason1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 290, 480, 150));
@@ -216,13 +217,13 @@ public class VisitorCheckStatusPage extends javax.swing.JFrame {
         lbl_status.setPreferredSize(new java.awt.Dimension(382, 25));
         jPanel2.add(lbl_status, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, 300, 60));
 
+        btn_resubmit.setText("Resumit");
         btn_resubmit.setBackground(new java.awt.Color(153, 153, 153));
+        btn_resubmit.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_resubmit.setFont(new java.awt.Font("Helvetica Neue", 1, 30)); // NOI18N
         btn_resubmit.setForeground(new java.awt.Color(255, 255, 255));
-        btn_resubmit.setText("Resumit");
-        btn_resubmit.setToolTipText("");
-        btn_resubmit.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_resubmit.setOpaque(true);
+        btn_resubmit.setToolTipText("");
         btn_resubmit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_resubmitMouseClicked(evt);
@@ -233,16 +234,16 @@ public class VisitorCheckStatusPage extends javax.swing.JFrame {
                 btn_resubmitActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_resubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 460, 140, 70));
+        jPanel2.add(btn_resubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 460, 140, 70));
         btn_resubmit.setVisible(false);
 
+        btn_check.setText("Check");
         btn_check.setBackground(new java.awt.Color(153, 153, 153));
+        btn_check.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_check.setFont(new java.awt.Font("Helvetica Neue", 1, 30)); // NOI18N
         btn_check.setForeground(new java.awt.Color(255, 255, 255));
-        btn_check.setText("Check");
-        btn_check.setToolTipText("");
-        btn_check.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_check.setOpaque(true);
+        btn_check.setToolTipText("");
         btn_check.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_checkMouseClicked(evt);
@@ -254,6 +255,26 @@ public class VisitorCheckStatusPage extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btn_check, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 460, 260, 70));
+
+        btn_forget.setBackground(new java.awt.Color(255, 204, 51));
+        btn_forget.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
+        btn_forget.setForeground(new java.awt.Color(255, 255, 255));
+        btn_forget.setText("Forget Ticket Number");
+        btn_forget.setToolTipText("");
+        btn_forget.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_forget.setOpaque(true);
+        btn_forget.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_forgetMouseClicked(evt);
+            }
+        });
+        btn_forget.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_forgetActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btn_forget, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 460, 140, 70));
+        btn_resubmit.setVisible(false);
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 950, 550));
 
@@ -298,6 +319,16 @@ public class VisitorCheckStatusPage extends javax.swing.JFrame {
     private void btn_checkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_checkActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_checkActionPerformed
+
+    private void btn_forgetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_forgetMouseClicked
+        ForgetTicketNumberPage forget = new ForgetTicketNumberPage(ic_no);
+        forget.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btn_forgetMouseClicked
+
+    private void btn_forgetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_forgetActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_forgetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -400,6 +431,7 @@ public class VisitorCheckStatusPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_check;
+    private javax.swing.JButton btn_forget;
     private javax.swing.JButton btn_homepage;
     private javax.swing.JButton btn_resubmit;
     private javax.swing.JLabel jLabel2;

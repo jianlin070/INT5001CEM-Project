@@ -45,13 +45,13 @@ public class VisitorSignupPage extends javax.swing.JFrame {
             int updatedRowCount = pst.executeUpdate();
             
             if (updatedRowCount > 0){
-                JOptionPane.showMessageDialog(this, "Signup Successfully");
+                JOptionPane.showMessageDialog(this, "Signup successfully! You may prcoeed to login.");
                 VisitorLoginPage login = new VisitorLoginPage();
                 login.setVisible(true);
                 this.dispose();
             }
             else{
-                JOptionPane.showMessageDialog(this, "Recorded Inserted Failure");
+                JOptionPane.showMessageDialog(this, "Signup fail! Please try again!");
             }
             
         } catch (Exception e){

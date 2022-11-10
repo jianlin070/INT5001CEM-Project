@@ -31,7 +31,7 @@ public class OfficerPage extends javax.swing.JFrame {
     public static String declined_reason = "";
     DefaultTableModel model;
     public static String tic_no;
-    public static int status;
+    public static String status;
     
     
     /**
@@ -50,7 +50,7 @@ public class OfficerPage extends javax.swing.JFrame {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/access_control_ms","root","");
             java.sql.Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select R.date_register, R.time_register, R.tic_no, V.name, R.date_visit, R.time_visit, R.status, R.declined_reason, R.officer_name, R.date_verify, R.time_verify FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic ORDER BY R.date_register, R.time_register DESC");
+            ResultSet rs = st.executeQuery("select R.date_register, R.time_register, R.tic_no, V.name, R.date_visit, R.time_visit, R.reason, R.status, R.declined_reason, R.officer_name, R.date_verify, R.time_verify FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic ORDER BY R.date_register DESC, R.time_register DESC");
 
  
             
@@ -61,13 +61,24 @@ public class OfficerPage extends javax.swing.JFrame {
                 String visitor_name = rs.getString("V.name");
                 Date date_visit = rs.getDate("R.date_visit");
                 Date time_visit = rs.getTime("R.time_visit");
+                String reason = rs.getString("R.reason");
                 String status = rs.getString("R.status");
+                String statusStr = "";
+                if(status.equals("0")){
+                    statusStr = "Pending";
+                }
+                else if(status.equals("1")){
+                    statusStr = "Approved";
+                }
+                else {
+                    statusStr = "Declined";
+                }
                 String declined_reason = rs.getString("R.declined_reason");
                 String officer_name = rs.getString("R.officer_name");
                 Date date_update = rs.getDate("R.date_verify");
                 Date time_update = rs.getTime("R.time_verify");
                 
-                Object[] obj = {date_register, time_register, tic_no, visitor_name, date_visit, time_visit, status, declined_reason, officer_name, date_update, time_update};
+                Object[] obj = {date_register, time_register, tic_no, visitor_name, date_visit, time_visit, reason, statusStr, declined_reason, officer_name, date_update, time_update};
                 model = (DefaultTableModel) tbl_request.getModel();
                 model.addRow(obj);
             }
@@ -106,10 +117,8 @@ public class OfficerPage extends javax.swing.JFrame {
         tbl_request = new rojerusan.RSTableMetro();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(null);
-        setMinimumSize(null);
-        setPreferredSize(new java.awt.Dimension(1800, 680));
-        setSize(new java.awt.Dimension(1800, 640));
+        setPreferredSize(new java.awt.Dimension(1000, 660));
+        setSize(new java.awt.Dimension(1000, 640));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
@@ -121,7 +130,7 @@ public class OfficerPage extends javax.swing.JFrame {
         jLabel1.setText("Security Officer Page");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabel1.setPreferredSize(new java.awt.Dimension(382, 25));
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 20, 440, 60));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, 440, 60));
 
         btn_logout.setBackground(new java.awt.Color(153, 153, 153));
         btn_logout.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
@@ -146,7 +155,6 @@ public class OfficerPage extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 2000, 90));
 
         jPanel2.setBackground(new java.awt.Color(102, 153, 255));
-        jPanel2.setMaximumSize(null);
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btn_approve.setBackground(new java.awt.Color(0, 204, 0));
@@ -167,7 +175,7 @@ public class OfficerPage extends javax.swing.JFrame {
                 btn_approveActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_approve, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 450, 120, 80));
+        jPanel2.add(btn_approve, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 450, 120, 80));
 
         btn_decline.setBackground(new java.awt.Color(255, 51, 51));
         btn_decline.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
@@ -187,7 +195,7 @@ public class OfficerPage extends javax.swing.JFrame {
                 btn_declineActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_decline, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 450, 120, 80));
+        jPanel2.add(btn_decline, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 450, 120, 80));
 
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
@@ -196,22 +204,25 @@ public class OfficerPage extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Date", "Time", "Tic No", "Visitor", "Date Visit", "Time Visit", "Status", "Declined Reason", "Last Update", "Date Update", "Time Update"
+                "Date", "Time", "Tic No", "Visitor", "Date Visit", "Time Visit", "Reason", "Status", "Declined Reason", "Last Update", "Date Update", "Time Update"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tbl_request.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
+        tbl_request.setAutoscrolls(false);
         tbl_request.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
         tbl_request.setColorSelBackgound(new java.awt.Color(0, 51, 204));
-        tbl_request.setFont(new java.awt.Font("Helvetica Neue", 0, 10)); // NOI18N
-        tbl_request.setFuenteHead(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        tbl_request.setFont(new java.awt.Font("Helvetica Neue", 0, 9)); // NOI18N
+        tbl_request.setFuenteHead(new java.awt.Font("Tahoma", 1, 9)); // NOI18N
         tbl_request.setRowHeight(40);
+        tbl_request.setShowHorizontalLines(true);
         tbl_request.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbl_requestMouseClicked(evt);
@@ -224,7 +235,7 @@ public class OfficerPage extends javax.swing.JFrame {
             tbl_request.getColumnModel().getColumn(3).setMinWidth(60);
         }
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 1760, 410));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 970, 410));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 2000, 550));
 
@@ -362,13 +373,13 @@ public class OfficerPage extends javax.swing.JFrame {
         TableModel model = tbl_request.getModel();
         
         tic_no = model.getValueAt(rowNo, 2).toString();
-        status = Integer.parseInt(model.getValueAt(rowNo, 6).toString());
+        status = model.getValueAt(rowNo, 6).toString();
         
-        if (model.getValueAt(rowNo, 6).equals("2")){
+        if (model.getValueAt(rowNo, 6).equals("Declined")){
             btn_decline.setEnabled(false);
         }
         
-        if (model.getValueAt(rowNo, 6).equals("1")){
+        if (model.getValueAt(rowNo, 6).equals("Approved")){
             btn_approve.setEnabled(false);
         }
         

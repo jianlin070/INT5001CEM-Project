@@ -4,6 +4,14 @@
  */
 package Interface;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -20,6 +28,89 @@ public class VisitorRegisterPage extends javax.swing.JFrame {
     public VisitorRegisterPage(String ic) {
         initComponents();
         ic_no = ic;
+    }
+    
+    //validate all the fiedls
+    public boolean validateField(){
+        
+        String dateVisit = date_visit.getText();
+        boolean validDateVisit =  date_visit.isTextFieldValid();
+        String timeVisit = time_visit.getText();
+        boolean validTimeVisit =  time_visit.isTextFieldValid();
+        String reason = txt_reason.getText();
+        
+        if (dateVisit.equals("")){
+            JOptionPane.showMessageDialog(this, "Please enter date of visit");
+            return false;
+        }
+        
+        if (!validDateVisit){
+         JOptionPane.showMessageDialog(this, "Please enter valid date of visit");
+         return false;
+        }
+        
+        if (timeVisit.equals("")){
+            JOptionPane.showMessageDialog(this, "Please enter time of visit");
+            return false;
+        }
+        
+        if (!validTimeVisit){
+         JOptionPane.showMessageDialog(this, "Please enter valid time of visit");
+         return false;
+        }
+        
+//      java.sql.Date sqlDate = java.sql.Date.valueOf(date_visit.getDate());
+//      SimpleDateFormat df = new SimpleDateFormat("dd-mm-yyyy");
+//        String dt2 = df.format(sqlDate);
+//        txt_reason.setText(sqlDate.toString());
+        
+        
+        if (reason.equals("")){
+         JOptionPane.showMessageDialog(this, "Please enter reason");
+         return false;
+        }
+       
+//        java.sql.Date sqlDate = java.sql.Date.valueOf(date_visit.getDate());
+//        java.sql.Time sqlTime = java.sql.Time.valueOf(time_visit.getTime());
+        
+        return true;    
+    }
+    
+    //method to insert values into request table
+    public void insertSignupDetails(){
+        java.sql.Date sqlVisitDate = java.sql.Date.valueOf(date_visit.getDate());
+        java.sql.Time sqlVisitTime = java.sql.Time.valueOf(time_visit.getTime());
+        java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        java.sql.Time sqlTime = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+        String reason = txt_reason.getText();
+        String ticketNumber = (ic_no + sqlDate.toString() + sqlTime.toString()).replaceAll("-", "").replaceAll(":","");
+        
+        try{
+            Connection con = DBConnection.getConnection();
+            String sql = "insert into request(tic_no, visitor_ic, date_visit, time_visit, reason, date_register, time_register) values(?,?,?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+  
+            pst.setString(1, ticketNumber);
+            pst.setString(2, ic_no);
+            pst.setDate(3, sqlVisitDate);
+            pst.setTime(4, sqlVisitTime);
+            pst.setString(5, reason);
+            pst.setDate(6, sqlDate);
+            pst.setTime(7, sqlTime);
+
+            int updatedRowCount = pst.executeUpdate();
+            
+            if (updatedRowCount > 0){
+                JOptionPane.showMessageDialog(this, "Please remember you ticket number! \nYour Ticket Number: " + ticketNumber, "Register successfully", JOptionPane.WARNING_MESSAGE);
+           
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Register fail! Please register again!");
+            }
+            
+        } catch (Exception e){
+            e.printStackTrace();
+        }           
     }
 
     /**
@@ -47,7 +138,9 @@ public class VisitorRegisterPage extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         btn_register = new necesario.RSMaterialButtonCircle();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txt_reason = new javax.swing.JTextArea();
+        date_visit = new com.github.lgooddatepicker.components.DatePicker();
+        time_visit = new com.github.lgooddatepicker.components.TimePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(950, 640));
@@ -120,8 +213,8 @@ public class VisitorRegisterPage extends javax.swing.JFrame {
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/visitor-register-reason.png"))); // NOI18N
         jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, -1, 50));
 
-        btn_register.setBackground(new java.awt.Color(153, 153, 153));
         btn_register.setText("Register");
+        btn_register.setBackground(new java.awt.Color(153, 153, 153));
         btn_register.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_registerMouseClicked(evt);
@@ -134,11 +227,13 @@ public class VisitorRegisterPage extends javax.swing.JFrame {
         });
         jPanel2.add(btn_register, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 460, 380, 70));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txt_reason.setColumns(20);
+        txt_reason.setRows(5);
+        jScrollPane1.setViewportView(txt_reason);
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, 760, 140));
+        jPanel2.add(date_visit, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 220, 40));
+        jPanel2.add(time_visit, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 100, 220, 40));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 950, 550));
 
@@ -161,7 +256,9 @@ public class VisitorRegisterPage extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_registerActionPerformed
 
     private void btn_registerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_registerMouseClicked
-        // TODO add your handling code here:
+        if(validateField()){
+            insertSignupDetails();
+        }
     }//GEN-LAST:event_btn_registerMouseClicked
 
     /**
@@ -233,6 +330,7 @@ public class VisitorRegisterPage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_homepage;
     private necesario.RSMaterialButtonCircle btn_register;
+    private com.github.lgooddatepicker.components.DatePicker date_visit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -243,10 +341,11 @@ public class VisitorRegisterPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private rojeru_san.componentes.RSCalendarBeanInfo rSCalendarBeanInfo1;
     private rojeru_san.componentes.RSCalendarBeanInfo rSCalendarBeanInfo2;
     private rojeru_san.componentes.RSDateChooserBeanInfo rSDateChooserBeanInfo1;
     private com.mysql.cj.util.TestUtils testUtils1;
+    private com.github.lgooddatepicker.components.TimePicker time_visit;
+    private javax.swing.JTextArea txt_reason;
     // End of variables declaration//GEN-END:variables
 }
