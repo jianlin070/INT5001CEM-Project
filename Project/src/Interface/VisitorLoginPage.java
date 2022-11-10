@@ -62,7 +62,7 @@ public class VisitorLoginPage extends javax.swing.JFrame {
             ResultSet rs = pst.executeQuery();
             if(rs.next()){
                 JOptionPane.showMessageDialog(this, "Login successfull. Welcome " + rs.getString("name") + "!");
-                VisitorHomepage home = new VisitorHomepage();
+                VisitorHomepage home = new VisitorHomepage(ic_no);
                 home.setVisible(true);
                 this.dispose();
                 
