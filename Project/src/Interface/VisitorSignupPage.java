@@ -45,13 +45,13 @@ public class VisitorSignupPage extends javax.swing.JFrame {
             int updatedRowCount = pst.executeUpdate();
             
             if (updatedRowCount > 0){
-                JOptionPane.showMessageDialog(this, "Signup Successfully");
+                JOptionPane.showMessageDialog(this, "Signup successfully! You may prcoeed to login.");
                 VisitorLoginPage login = new VisitorLoginPage();
                 login.setVisible(true);
                 this.dispose();
             }
             else{
-                JOptionPane.showMessageDialog(this, "Recorded Inserted Failure");
+                JOptionPane.showMessageDialog(this, "Signup fail! Please try again!");
             }
             
         } catch (Exception e){
@@ -162,7 +162,6 @@ public class VisitorSignupPage extends javax.swing.JFrame {
         btn_signup = new necesario.RSMaterialButtonCircle();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -315,8 +314,8 @@ public class VisitorSignupPage extends javax.swing.JFrame {
 
         jLabel16.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setText("Signup Page");
-        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, -1, -1));
+        jLabel16.setText("Visitor Signup");
+        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(232, 30, -1, -1));
 
         btn_signup.setBackground(new java.awt.Color(255, 0, 51));
         btn_signup.setText("Signup");
@@ -329,7 +328,7 @@ public class VisitorSignupPage extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 0, 600, 710));
 
-        setSize(new java.awt.Dimension(960, 710));
+        setSize(new java.awt.Dimension(960, 738));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
