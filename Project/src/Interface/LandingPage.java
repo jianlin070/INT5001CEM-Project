@@ -43,7 +43,7 @@ public class LandingPage extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Bangla Sangam MN", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Access Control Management Sysyem (ACMS)");
+        jLabel1.setText("Access Control Management System (ACMS)");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabel1.setPreferredSize(new java.awt.Dimension(382, 25));
 

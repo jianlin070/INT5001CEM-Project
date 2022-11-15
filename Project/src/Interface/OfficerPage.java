@@ -6,6 +6,7 @@ package Interface;
 
 import static Interface.DBConnection.con;
 import com.mysql.cj.xdevapi.Statement;
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,6 +20,12 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.util.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.awt.Component;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.util.concurrent.TimeUnit;
+import javax.swing.JTable;
 
 
 /**
@@ -44,13 +51,22 @@ public class OfficerPage extends javax.swing.JFrame {
         fetchDataToTable();
     }
     
+    //calculate difference of 2 dates in minute
+    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        long diffInMillies = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+    }
+    
     //fetch data to the table
     public void fetchDataToTable(){
+        
+        int count = 0;
+        
          try{
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/access_control_ms","root","");
             java.sql.Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select R.date_register, R.time_register, R.tic_no, V.name, R.date_visit, R.time_visit, R.reason, R.status, R.declined_reason, R.officer_name, R.date_verify, R.time_verify FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic ORDER BY R.date_register DESC, R.time_register DESC");
+            ResultSet rs = st.executeQuery("select R.date_register, R.time_register, R.tic_no, V.name, R.date_visit, R.time_visit, R.reason, R.status, R.declined_reason, R.officer_name, R.date_verify, R.time_verify FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic WHERE R.status = 0 ORDER BY R.date_register DESC, R.time_register DESC");
 
  
             
@@ -81,6 +97,39 @@ public class OfficerPage extends javax.swing.JFrame {
                 Object[] obj = {date_register, time_register, tic_no, visitor_name, date_visit, time_visit, reason, statusStr, declined_reason, officer_name, date_update, time_update};
                 model = (DefaultTableModel) tbl_request.getModel();
                 model.addRow(obj);
+                
+       
+                java.sql.Date dateNow = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                
+                 
+                tbl_request.getColumnModel().getColumn(4).setCellRenderer(new DefaultTableCellRenderer() {
+                    @Override
+                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                        final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                        
+                        java.sql.Date dateVisit =  java.sql.Date.valueOf(table.getValueAt(row, 4).toString());
+                        long dateDiff = getDateDiff(dateNow,dateVisit,TimeUnit.DAYS);
+                       
+                        if(dateDiff<3){
+                            c.setBackground(Color.red);
+                            c.setFont(new java.awt.Font("Helvetica Neue", 1, 12));
+                            c.setForeground(new java.awt.Color(0, 112, 192));
+                        }
+                        else{
+                            c.setBackground(Color.white);
+                            c.setFont(new java.awt.Font("Helvetica Neue", 1, 12));
+                            c.setForeground(new java.awt.Color(0, 112, 192));
+                        }
+                    
+                        return c;
+                    }
+                });
+                
+               
+                
+
+           
+                
             }
             
         } catch (Exception e){
@@ -88,6 +137,7 @@ public class OfficerPage extends javax.swing.JFrame {
         }
     }
     
+  
     //clear table
     public void clearTable(){
         DefaultTableModel model = (DefaultTableModel) tbl_request.getModel();
@@ -384,6 +434,8 @@ public class OfficerPage extends javax.swing.JFrame {
         }
         
         
+       
+        
     }//GEN-LAST:event_tbl_requestMouseClicked
 
     /**
@@ -498,4 +550,12 @@ public class OfficerPage extends javax.swing.JFrame {
     private rojerusan.RSTableMetro tbl_request;
     private com.mysql.cj.util.TestUtils testUtils1;
     // End of variables declaration//GEN-END:variables
+}
+
+class MyTableCellRenderer extends DefaultTableCellRenderer {
+
+    @Override
+    public Color getBackground() {
+        return super.getBackground();
+    }
 }

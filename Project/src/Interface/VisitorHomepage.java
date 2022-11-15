@@ -150,7 +150,7 @@ public class VisitorHomepage extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_registerActionPerformed
 
     private void btn_registerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_registerMouseClicked
-        VisitorRegisterPage register = new VisitorRegisterPage(ic_no);
+        VisitorRegisterPage register = new VisitorRegisterPage(ic_no, null, null, null);
         register.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btn_registerMouseClicked

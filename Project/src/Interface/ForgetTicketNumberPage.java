@@ -155,7 +155,7 @@ public class ForgetTicketNumberPage extends javax.swing.JFrame {
                 btn_doneActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_done, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 485, 210, 50));
+        jPanel2.add(btn_done, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 490, 210, 50));
 
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 

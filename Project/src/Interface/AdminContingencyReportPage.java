@@ -7,6 +7,10 @@ package Interface;
 import static Interface.DBConnection.con;
 import static Interface.GuardPage.tic_no;
 import com.mysql.cj.xdevapi.Statement;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -157,13 +161,12 @@ public class AdminContingencyReportPage extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tbl_request = new rojerusan.RSTableMetro();
         date_filter = new com.github.lgooddatepicker.components.DatePicker();
-        btn_turnup = new javax.swing.JButton();
+        btn_generate = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         time_filter = new com.github.lgooddatepicker.components.TimePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(null);
         setPreferredSize(new java.awt.Dimension(1000, 660));
         setSize(new java.awt.Dimension(1000, 640));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -266,30 +269,30 @@ public class AdminContingencyReportPage extends javax.swing.JFrame {
         });
         jPanel2.add(date_filter, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 15, 220, 30));
 
-        btn_turnup.setBackground(new java.awt.Color(102, 102, 102));
-        btn_turnup.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        btn_turnup.setForeground(new java.awt.Color(255, 255, 255));
-        btn_turnup.setText("Generate to .txt");
-        btn_turnup.setToolTipText("");
-        btn_turnup.setActionCommand("");
-        btn_turnup.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btn_turnup.setOpaque(true);
-        btn_turnup.addFocusListener(new java.awt.event.FocusAdapter() {
+        btn_generate.setText("Generate to .txt");
+        btn_generate.setActionCommand("");
+        btn_generate.setBackground(new java.awt.Color(102, 102, 102));
+        btn_generate.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_generate.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        btn_generate.setForeground(new java.awt.Color(255, 255, 255));
+        btn_generate.setOpaque(true);
+        btn_generate.setToolTipText("");
+        btn_generate.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                btn_turnupFocusGained(evt);
+                btn_generateFocusGained(evt);
             }
         });
-        btn_turnup.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_generate.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_turnupMouseClicked(evt);
+                btn_generateMouseClicked(evt);
             }
         });
-        btn_turnup.addActionListener(new java.awt.event.ActionListener() {
+        btn_generate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_turnupActionPerformed(evt);
+                btn_generateActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_turnup, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 485, 210, 50));
+        jPanel2.add(btn_generate, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 485, 210, 50));
 
         jLabel2.setFont(new java.awt.Font("Bangla Sangam MN", 1, 30)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -334,17 +337,139 @@ public class AdminContingencyReportPage extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tbl_requestMouseClicked
 
-    private void btn_turnupFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btn_turnupFocusGained
+    private void btn_generateFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btn_generateFocusGained
+        
+    }//GEN-LAST:event_btn_generateFocusGained
 
-    }//GEN-LAST:event_btn_turnupFocusGained
+    private void btn_generateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_generateMouseClicked
+        
+        java.sql.Date dateFilter = null;
+        java.sql.Time timeFilter = null;
+        
+        if(!date_filter.getText().equals(""))
+            dateFilter = java.sql.Date.valueOf(date_filter.getDate());
+        
+        if(!time_filter.getText().equals(""))
+            timeFilter = java.sql.Time.valueOf(time_filter.getTime());
+        
+        PreparedStatement pst;
+                 
+        try{
+            java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/access_control_ms","root","");
+            
+            if(dateFilter != null && timeFilter != null){
+                String sql = "select * FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic WHERE R.date_visit = ? AND R.time_visit = ? AND R.turn_up = 1 ORDER BY R.date_register DESC, R.time_register DESC ";
+                pst = con.prepareStatement(sql);
 
-    private void btn_turnupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_turnupMouseClicked
+                pst.setDate(1, dateFilter);
+                pst.setTime(2, timeFilter);
+                
+                ResultSet rs = pst.executeQuery();
+                
+                java.sql.Date fileDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                java.sql.Time fileTime = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+                String fileName = ("/" + sqlDate.toString() + fileTime.toString() + "_Contingency_Report.txt").replaceAll("-", "").replaceAll(":","");
+                
+                if(rs.isBeforeFirst()){
+                    Path currentRelativePath = Paths.get("");
+                    String s = currentRelativePath.toAbsolutePath().toString() + fileName;
 
-    }//GEN-LAST:event_btn_turnupMouseClicked
+                    FileWriter fstream = new FileWriter(s);
+                    BufferedWriter out = new BufferedWriter(fstream);
+                    
+                    while (rs.next()) {
+                        for (int i = 1; i < rs.getMetaData().getColumnCount() + 1; i++) {
+                          out.write(rs.getMetaData().getColumnName(i) + "=" + rs.getObject(i) + ", ");
+                        }
+                         out.newLine();
+                    }
+                    out.close();
 
-    private void btn_turnupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_turnupActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_turnupActionPerformed
+                    JOptionPane.showMessageDialog(this, fileName.replace("/", "") + " generated successfully");
+                }
+                else
+                     JOptionPane.showMessageDialog(this, "No data generated!");
+            }
+            else if(dateFilter != null &&  timeFilter == null){
+                String sql = "select * FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic WHERE R.date_visit = ? AND R.turn_up = 1 ORDER BY R.date_register DESC, R.time_register DESC ";
+                pst = con.prepareStatement(sql);
+
+                pst.setDate(1, dateFilter);
+                
+                ResultSet rs = pst.executeQuery();
+                
+                java.sql.Date fileDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                java.sql.Time fileTime = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+                String fileName = ("/" + sqlDate.toString() + fileTime.toString() + "_Contingency_Report.txt").replaceAll("-", "").replaceAll(":","");
+                
+                if(rs.isBeforeFirst()){
+                    Path currentRelativePath = Paths.get("");
+                    String s = currentRelativePath.toAbsolutePath().toString() + fileName;
+
+                    FileWriter fstream = new FileWriter(s);
+                    BufferedWriter out = new BufferedWriter(fstream);
+                    
+                    while (rs.next()) {
+                        for (int i = 1; i < rs.getMetaData().getColumnCount() + 1; i++) {
+                          out.write(rs.getMetaData().getColumnName(i) + "=" + rs.getObject(i) + ", ");
+                        }
+                         out.newLine();
+                    }
+                    out.close();
+
+                    JOptionPane.showMessageDialog(this, fileName.replace("/", "") + " generated successfully");
+                }
+                else
+                     JOptionPane.showMessageDialog(this, "No data was generated!");
+            
+            }
+            else if (timeFilter != null && dateFilter == null) {
+                String sql = "select * FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic WHERE R.time_visit = ? AND R.turn_up = 1 ORDER BY R.date_register DESC, R.time_register DESC ";
+                pst = con.prepareStatement(sql);
+
+                pst.setTime(1, timeFilter);
+                
+                ResultSet rs = pst.executeQuery();
+                
+                java.sql.Date fileDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                java.sql.Time fileTime = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+                String fileName = ("/" + sqlDate.toString() + fileTime.toString() + "_Contingency_Report.txt").replaceAll("-", "").replaceAll(":","");
+                
+                if(rs.isBeforeFirst()){
+                    Path currentRelativePath = Paths.get("");
+                    String s = currentRelativePath.toAbsolutePath().toString() + fileName;
+
+                    FileWriter fstream = new FileWriter(s);
+                    BufferedWriter out = new BufferedWriter(fstream);
+                    
+                    while (rs.next()) {
+                        for (int i = 1; i < rs.getMetaData().getColumnCount() + 1; i++) {
+                          out.write(rs.getMetaData().getColumnName(i) + "=" + rs.getObject(i) + ", ");
+                        }
+                         out.newLine();
+                    }
+                    out.close();
+
+                    JOptionPane.showMessageDialog(this, fileName.replace("/", "") + " generated successfully");
+                }
+                else
+                     JOptionPane.showMessageDialog(this, "No data generated!");
+            
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "No data generated!");
+            }
+   
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_generateMouseClicked
+
+    private void btn_generateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generateActionPerformed
+        
+    }//GEN-LAST:event_btn_generateActionPerformed
 
     private void date_filterInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_date_filterInputMethodTextChanged
        
@@ -937,8 +1062,8 @@ public class AdminContingencyReportPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_generate;
     private javax.swing.JButton btn_homepage;
-    private javax.swing.JButton btn_turnup;
     private com.github.lgooddatepicker.components.DatePicker date_filter;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

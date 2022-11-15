@@ -20,12 +20,14 @@ public class StaffLoginPage extends javax.swing.JFrame {
      */
     public StaffLoginPage() {
         initComponents();
+        btn_show.setVisible(true);
+        btn_hide.setVisible(false);
     }
     
     //validation for Login
     public boolean validateLogin(){
         String ic_no =  txt_ic_no.getText();
-        String password = txt_password.getText();
+        String password = String.valueOf(txt_pass.getPassword());
 
         
         if (ic_no.equals("") ){
@@ -49,7 +51,7 @@ public class StaffLoginPage extends javax.swing.JFrame {
     //verify credentials
     public void login(){
         String ic_no =  txt_ic_no.getText();
-        String password = txt_password.getText();
+        String password = String.valueOf(txt_pass.getPassword());
         
         try{
             Connection con = DBConnection.getConnection();
@@ -118,9 +120,11 @@ public class StaffLoginPage extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        txt_password = new app.bolivia.swing.JCTextField();
         btn_login = new necesario.RSMaterialButtonCircle();
         jLabel16 = new javax.swing.JLabel();
+        txt_pass = new javax.swing.JPasswordField();
+        btn_show = new javax.swing.JLabel();
+        btn_hide = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -156,7 +160,6 @@ public class StaffLoginPage extends javax.swing.JFrame {
 
         txt_ic_no.setBackground(new java.awt.Color(102, 153, 255));
         txt_ic_no.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
-        txt_ic_no.setPlaceholder("Enter IC Number ...");
         txt_ic_no.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txt_ic_noFocusLost(evt);
@@ -194,16 +197,6 @@ public class StaffLoginPage extends javax.swing.JFrame {
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/password-signup.png"))); // NOI18N
         jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 340, -1, 50));
 
-        txt_password.setBackground(new java.awt.Color(102, 153, 255));
-        txt_password.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
-        txt_password.setPlaceholder("Enter Password ...");
-        txt_password.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_passwordActionPerformed(evt);
-            }
-        });
-        jPanel2.add(txt_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 350, 310, 30));
-
         btn_login.setBackground(new java.awt.Color(51, 51, 51));
         btn_login.setText("Login");
         btn_login.addActionListener(new java.awt.event.ActionListener() {
@@ -218,6 +211,31 @@ public class StaffLoginPage extends javax.swing.JFrame {
         jLabel16.setText("Staff Login");
         jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 60, -1, -1));
 
+        txt_pass.setBackground(new java.awt.Color(102, 153, 255));
+        txt_pass.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        txt_pass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_passActionPerformed(evt);
+            }
+        });
+        jPanel2.add(txt_pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 360, 310, -1));
+
+        btn_show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/show.png"))); // NOI18N
+        btn_show.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_showMouseClicked(evt);
+            }
+        });
+        jPanel2.add(btn_show, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 355, -1, -1));
+
+        btn_hide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/hide.png"))); // NOI18N
+        btn_hide.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_hideMouseClicked(evt);
+            }
+        });
+        jPanel2.add(btn_hide, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 355, -1, -1));
+
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 600, 710));
 
         setSize(new java.awt.Dimension(960, 738));
@@ -227,10 +245,6 @@ public class StaffLoginPage extends javax.swing.JFrame {
     private void txt_ic_noActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_ic_noActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_ic_noActionPerformed
-
-    private void txt_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_passwordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_passwordActionPerformed
 
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
         
@@ -248,6 +262,22 @@ public class StaffLoginPage extends javax.swing.JFrame {
     private void txt_ic_noFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_ic_noFocusLost
 
     }//GEN-LAST:event_txt_ic_noFocusLost
+
+    private void txt_passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_passActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_passActionPerformed
+
+    private void btn_showMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_showMouseClicked
+        btn_show.setVisible(false);
+        btn_hide.setVisible(true);
+        txt_pass.setEchoChar((char)0);
+    }//GEN-LAST:event_btn_showMouseClicked
+
+    private void btn_hideMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_hideMouseClicked
+        btn_show.setVisible(true);
+        btn_hide.setVisible(false);
+        txt_pass.setEchoChar('*');
+    }//GEN-LAST:event_btn_hideMouseClicked
 
     /**
      * @param args the command line arguments
@@ -293,7 +323,9 @@ public class StaffLoginPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btn_close;
+    private javax.swing.JLabel btn_hide;
     private necesario.RSMaterialButtonCircle btn_login;
+    private javax.swing.JLabel btn_show;
     private org.jdesktop.core.animation.timing.evaluators.EvaluatorByte evaluatorByte1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
@@ -306,6 +338,6 @@ public class StaffLoginPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private app.bolivia.swing.JCTextField txt_ic_no;
-    private app.bolivia.swing.JCTextField txt_password;
+    private javax.swing.JPasswordField txt_pass;
     // End of variables declaration//GEN-END:variables
 }
