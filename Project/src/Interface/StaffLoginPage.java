@@ -218,7 +218,7 @@ public class StaffLoginPage extends javax.swing.JFrame {
         jLabel16.setText("Staff Login");
         jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 60, -1, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 600, 710));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 0, 600, 710));
 
         setSize(new java.awt.Dimension(960, 738));
         setLocationRelativeTo(null);
