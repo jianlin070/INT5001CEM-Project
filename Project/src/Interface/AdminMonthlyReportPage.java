@@ -5,7 +5,12 @@
 package Interface;
 
 import static Interface.DBConnection.con;
+import static Interface.GuardPage.tic_no;
 import com.mysql.cj.xdevapi.Statement;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,6 +33,7 @@ public class AdminMonthlyReportPage extends javax.swing.JFrame {
     
     public static String ic_no;
     DefaultTableModel model;
+    public static int month, year;
 
     /**
      * Creates new form LandingForm
@@ -36,19 +42,56 @@ public class AdminMonthlyReportPage extends javax.swing.JFrame {
     public AdminMonthlyReportPage(String ic) {
         initComponents();
         ic_no = ic;
-        fetchDataToTable();
     }
     
     
-    //fetch data to the table
-    public void fetchDataToTable(){
-         
+     //fetch data to the table
+    public void fetchDataToTable(int month, int year){
+        
+         PreparedStatement pst;
+                 
+         try{
+            java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/access_control_ms","root","");
+            
+        
+            String sql = "select R.date_visit, R.time_visit, R.tic_no, V.name, V.contact, R.reason, R.checkin_time, R.checkout_time FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic WHERE MONTH(R.date_visit) = ? AND YEAR(R.date_visit) = ? AND R.turn_up = 1 ORDER BY R.date_register DESC, R.time_register DESC ";
+            pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, month);
+            pst.setInt(2, year);
+            
+            ResultSet rs = pst.executeQuery();
+
+            while(rs.next()){
+                Date date_visit = rs.getDate("R.date_visit");
+                Date time_visit = rs.getTime("R.time_visit");
+                tic_no = rs.getString("R.tic_no");
+                String visitor_name = rs.getString("V.name");
+                String contact = rs.getString("V.contact");
+                String reason = rs.getString("R.reason");           
+                Date checkin_time = rs.getTime("R.checkin_time");
+                Date checkout_time = rs.getTime("R.checkout_time");
+
+                Object[] obj = {tic_no, visitor_name, contact, reason, date_visit, time_visit, checkin_time, checkout_time};
+                model = (DefaultTableModel) tbl_request.getModel();
+                model.addRow(obj);
+            }
+           
+
+            
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
     
     //clear table
     public void clearTable(){
         DefaultTableModel model = (DefaultTableModel) tbl_request.getModel();
         model.setRowCount(0);
+        
+        
     }
 
     /**
@@ -68,11 +111,11 @@ public class AdminMonthlyReportPage extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btn_homepage = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        btn_turnup = new javax.swing.JButton();
+        btn_generate = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_request = new rojerusan.RSTableMetro();
-        jMonthChooser1 = new com.toedter.calendar.JMonthChooser();
-        jYearChooser1 = new com.toedter.calendar.JYearChooser();
+        month_chooser = new com.toedter.calendar.JMonthChooser();
+        year_chooser = new com.toedter.calendar.JYearChooser();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
@@ -117,30 +160,30 @@ public class AdminMonthlyReportPage extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(102, 153, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btn_turnup.setText("Generate to .txt");
-        btn_turnup.setActionCommand("");
-        btn_turnup.setBackground(new java.awt.Color(102, 102, 102));
-        btn_turnup.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btn_turnup.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        btn_turnup.setForeground(new java.awt.Color(255, 255, 255));
-        btn_turnup.setOpaque(true);
-        btn_turnup.setToolTipText("");
-        btn_turnup.addFocusListener(new java.awt.event.FocusAdapter() {
+        btn_generate.setBackground(new java.awt.Color(102, 102, 102));
+        btn_generate.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        btn_generate.setForeground(new java.awt.Color(255, 255, 255));
+        btn_generate.setText("Generate to .txt");
+        btn_generate.setToolTipText("");
+        btn_generate.setActionCommand("");
+        btn_generate.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_generate.setOpaque(true);
+        btn_generate.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                btn_turnupFocusGained(evt);
+                btn_generateFocusGained(evt);
             }
         });
-        btn_turnup.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_generate.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_turnupMouseClicked(evt);
+                btn_generateMouseClicked(evt);
             }
         });
-        btn_turnup.addActionListener(new java.awt.event.ActionListener() {
+        btn_generate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_turnupActionPerformed(evt);
+                btn_generateActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_turnup, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 485, 210, 50));
+        jPanel2.add(btn_generate, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 485, 210, 50));
 
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
@@ -149,11 +192,11 @@ public class AdminMonthlyReportPage extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Tic No", "Visitor", "Reason", "Visit Date", "Visit Time", "Turn Up", "Entry Time", "Exit Time"
+                "Tic No", "Visitor", "Contact", "Reason", "Visit Date", "Visit Time", "Entry Time", "Exit Time"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -180,8 +223,20 @@ public class AdminMonthlyReportPage extends javax.swing.JFrame {
         }
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 970, 410));
-        jPanel2.add(jMonthChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 15, -1, 30));
-        jPanel2.add(jYearChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 15, 90, 30));
+
+        month_chooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                month_chooserPropertyChange(evt);
+            }
+        });
+        jPanel2.add(month_chooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 15, -1, 30));
+
+        year_chooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                year_chooserPropertyChange(evt);
+            }
+        });
+        jPanel2.add(year_chooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 15, 90, 30));
 
         jLabel2.setFont(new java.awt.Font("Bangla Sangam MN", 1, 30)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -205,23 +260,68 @@ public class AdminMonthlyReportPage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_turnupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_turnupMouseClicked
-       
-      
+    private void btn_generateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_generateMouseClicked
+        month = month_chooser.getMonth() + 1;
+        year = year_chooser.getYear();
         
-    }//GEN-LAST:event_btn_turnupMouseClicked
+        PreparedStatement pst;
+                 
+        try{
+            java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/access_control_ms","root","");
+            
+        
+            String sql = "select * FROM request R INNER JOIN visitor V ON R.visitor_ic = V.ic WHERE MONTH(R.date_visit) = ? AND YEAR(R.date_visit) = ? AND R.turn_up = 1 ORDER BY R.date_register DESC, R.time_register DESC ";
+            pst = con.prepareStatement(sql);
+            
+            pst.setInt(1, month);
+            pst.setInt(2, year);
+            
+            ResultSet rs = pst.executeQuery();
 
-    private void btn_turnupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_turnupActionPerformed
+            java.sql.Date fileDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                java.sql.Time fileTime = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+                String fileName = ("/" + sqlDate.toString() + fileTime.toString() + "_Monthly_Report.txt").replaceAll("-", "").replaceAll(":","");
+                
+                if(rs.isBeforeFirst()){
+                    Path currentRelativePath = Paths.get("");
+                    String s = currentRelativePath.toAbsolutePath().toString() + fileName;
+
+                    FileWriter fstream = new FileWriter(s);
+                    BufferedWriter out = new BufferedWriter(fstream);
+                    
+                    while (rs.next()) {
+                        for (int i = 1; i < rs.getMetaData().getColumnCount() + 1; i++) {
+                          out.write(rs.getMetaData().getColumnName(i) + "=" + rs.getObject(i) + ", ");
+                        }
+                         out.newLine();
+                    }
+                    out.close();
+
+                    JOptionPane.showMessageDialog(this, fileName.replace("/", "") + " generated successfully");
+                }
+                else
+                     JOptionPane.showMessageDialog(this, "No data was generated!");
+                
+           
+   
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_generateMouseClicked
+
+    private void btn_generateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generateActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_turnupActionPerformed
+    }//GEN-LAST:event_btn_generateActionPerformed
 
     private void tbl_requestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_requestMouseClicked
 
     }//GEN-LAST:event_tbl_requestMouseClicked
 
-    private void btn_turnupFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btn_turnupFocusGained
+    private void btn_generateFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btn_generateFocusGained
         
-    }//GEN-LAST:event_btn_turnupFocusGained
+    }//GEN-LAST:event_btn_generateFocusGained
 
     private void btn_homepageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_homepageMouseClicked
         AdminHomepage home = new AdminHomepage(ic_no);
@@ -232,6 +332,21 @@ public class AdminMonthlyReportPage extends javax.swing.JFrame {
     private void btn_homepageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_homepageActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_homepageActionPerformed
+
+    private void month_chooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_month_chooserPropertyChange
+        clearTable();
+        month = month_chooser.getMonth() + 1;
+        year = year_chooser.getYear();
+        fetchDataToTable(month, year);
+  
+    }//GEN-LAST:event_month_chooserPropertyChange
+
+    private void year_chooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_year_chooserPropertyChange
+        clearTable();
+        month = month_chooser.getMonth() + 1;
+        year = year_chooser.getYear();
+        fetchDataToTable(month, year);
+    }//GEN-LAST:event_year_chooserPropertyChange
 
     /**
      * @param args the command line arguments
@@ -524,20 +639,20 @@ public class AdminMonthlyReportPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_generate;
     private javax.swing.JButton btn_homepage;
-    private javax.swing.JButton btn_turnup;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private com.toedter.calendar.JMonthChooser jMonthChooser1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private com.toedter.calendar.JYearChooser jYearChooser1;
+    private com.toedter.calendar.JMonthChooser month_chooser;
     private rojeru_san.componentes.RSCalendarBeanInfo rSCalendarBeanInfo1;
     private rojeru_san.componentes.RSCalendarBeanInfo rSCalendarBeanInfo2;
     private rojeru_san.componentes.RSDateChooserBeanInfo rSDateChooserBeanInfo1;
     private rojerusan.RSTableMetro tbl_request;
     private com.mysql.cj.util.TestUtils testUtils1;
+    private com.toedter.calendar.JYearChooser year_chooser;
     // End of variables declaration//GEN-END:variables
 }

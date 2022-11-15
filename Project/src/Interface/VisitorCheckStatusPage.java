@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import java.sql.*;
 
 
 /**
@@ -18,7 +19,9 @@ import javax.swing.JOptionPane;
  */
 public class VisitorCheckStatusPage extends javax.swing.JFrame {
     
-    public static String ic_no;
+    public static String ic_no, reason;
+    public static Date visitDate;
+    public static Time visitTime;
     
     /**
      * Creates new form LandingForm
@@ -57,7 +60,7 @@ public class VisitorCheckStatusPage extends javax.swing.JFrame {
         
         try{
             Connection con = DBConnection.getConnection();
-            String sql = "select status,declined_reason from request where tic_no = ?";
+            String sql = "select status,declined_reason, date_visit, time_visit, reason from request where tic_no = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             
             pst.setString(1, tic_no);
@@ -79,6 +82,9 @@ public class VisitorCheckStatusPage extends javax.swing.JFrame {
                     lbl_status.setForeground(Color.red);
                     lbl_reason.setText("Reason:");
                     lbl_reason1.setText(rs.getString("declined_reason"));
+                    visitDate = rs.getDate("date_visit");
+                    visitTime = rs.getTime("time_visit");
+                    reason = rs.getString("reason");
                     btn_resubmit.setVisible(true);
                 }
                 
@@ -217,13 +223,13 @@ public class VisitorCheckStatusPage extends javax.swing.JFrame {
         lbl_status.setPreferredSize(new java.awt.Dimension(382, 25));
         jPanel2.add(lbl_status, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, 300, 60));
 
-        btn_resubmit.setText("Resumit");
         btn_resubmit.setBackground(new java.awt.Color(153, 153, 153));
-        btn_resubmit.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btn_resubmit.setFont(new java.awt.Font("Helvetica Neue", 1, 30)); // NOI18N
         btn_resubmit.setForeground(new java.awt.Color(255, 255, 255));
-        btn_resubmit.setOpaque(true);
+        btn_resubmit.setText("Resubmit");
         btn_resubmit.setToolTipText("");
+        btn_resubmit.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_resubmit.setOpaque(true);
         btn_resubmit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_resubmitMouseClicked(evt);
@@ -291,7 +297,7 @@ public class VisitorCheckStatusPage extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_tic_noActionPerformed
 
     private void btn_resubmitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_resubmitMouseClicked
-        VisitorRegisterPage register = new VisitorRegisterPage(ic_no);
+        VisitorRegisterPage register = new VisitorRegisterPage(ic_no, visitDate, visitTime, reason);
         register.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btn_resubmitMouseClicked

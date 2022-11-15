@@ -8,9 +8,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
+import java.sql.*;
 
 
 /**
@@ -19,15 +19,29 @@ import javax.swing.JOptionPane;
  */
 public class VisitorRegisterPage extends javax.swing.JFrame {
     
-    public static String ic_no;
+    public static String ic_no, reason;
+    public static Date visitDate;
+    public static Time visitTime;
+    
     
     /**
      * Creates new form LandingForm
      * @param ic
      */
-    public VisitorRegisterPage(String ic) {
+    public VisitorRegisterPage(String ic, Date vDate, Time vTime, String r) {
         initComponents();
         ic_no = ic;
+        visitDate = vDate;
+        visitTime = vTime;
+        reason = r;
+        
+        if (visitDate != null)
+            date_visit.setDate(visitDate.toLocalDate());
+        
+        if (visitTime != null)
+            time_visit.setTime(visitTime.toLocalTime());
+        
+        txt_reason.setText(reason);
     }
     
     //validate all the fiedls
@@ -37,7 +51,7 @@ public class VisitorRegisterPage extends javax.swing.JFrame {
         boolean validDateVisit =  date_visit.isTextFieldValid();
         String timeVisit = time_visit.getText();
         boolean validTimeVisit =  time_visit.isTextFieldValid();
-        String reason = txt_reason.getText();
+        String r = txt_reason.getText();
         
         if (dateVisit.equals("")){
             JOptionPane.showMessageDialog(this, "Please enter date of visit");
@@ -82,7 +96,7 @@ public class VisitorRegisterPage extends javax.swing.JFrame {
         java.sql.Time sqlVisitTime = java.sql.Time.valueOf(time_visit.getTime());
         java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
         java.sql.Time sqlTime = new java.sql.Time(Calendar.getInstance().getTime().getTime());
-        String reason = txt_reason.getText();
+        String r = txt_reason.getText();
         String ticketNumber = (ic_no + sqlDate.toString() + sqlTime.toString()).replaceAll("-", "").replaceAll(":","");
         
         try{
@@ -94,7 +108,7 @@ public class VisitorRegisterPage extends javax.swing.JFrame {
             pst.setString(2, ic_no);
             pst.setDate(3, sqlVisitDate);
             pst.setTime(4, sqlVisitTime);
-            pst.setString(5, reason);
+            pst.setString(5, r);
             pst.setDate(6, sqlDate);
             pst.setTime(7, sqlTime);
 
@@ -322,7 +336,7 @@ public class VisitorRegisterPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VisitorRegisterPage(ic_no).setVisible(true);
+                new VisitorRegisterPage(ic_no, visitDate, visitTime, reason).setVisible(true);
             }
         });
     }
