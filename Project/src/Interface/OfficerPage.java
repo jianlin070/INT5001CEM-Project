@@ -117,7 +117,6 @@ public class OfficerPage extends javax.swing.JFrame {
         tbl_request = new rojerusan.RSTableMetro();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1000, 660));
         setSize(new java.awt.Dimension(1000, 640));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

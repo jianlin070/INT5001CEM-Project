@@ -163,8 +163,6 @@ public class AdminContingencyReportPage extends javax.swing.JFrame {
         time_filter = new com.github.lgooddatepicker.components.TimePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(null);
-        setPreferredSize(new java.awt.Dimension(1000, 660));
         setSize(new java.awt.Dimension(1000, 640));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
