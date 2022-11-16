@@ -41,7 +41,8 @@ public class VisitorRegisterPage extends javax.swing.JFrame {
         if (visitTime != null)
             time_visit.setTime(visitTime.toLocalTime());
         
-        txt_reason.setText(reason);
+        if(reason != null)
+            txt_reason.setText(reason);
     }
     
     //validate all the fiedls
@@ -71,22 +72,13 @@ public class VisitorRegisterPage extends javax.swing.JFrame {
         if (!validTimeVisit){
          JOptionPane.showMessageDialog(this, "Please enter valid time of visit");
          return false;
-        }
+        }  
         
-//      java.sql.Date sqlDate = java.sql.Date.valueOf(date_visit.getDate());
-//      SimpleDateFormat df = new SimpleDateFormat("dd-mm-yyyy");
-//        String dt2 = df.format(sqlDate);
-//        txt_reason.setText(sqlDate.toString());
-        
-        
-        if (reason.equals("")){
+        if (r.equals("")){
          JOptionPane.showMessageDialog(this, "Please enter reason");
          return false;
         }
-       
-//        java.sql.Date sqlDate = java.sql.Date.valueOf(date_visit.getDate());
-//        java.sql.Time sqlTime = java.sql.Time.valueOf(time_visit.getTime());
-        
+
         return true;    
     }
     
